@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ValanticSpryker\Zed\Sitemap\Communication\Controller;
 
-use Generated\Shared\Transfer\SitemapResponseTransfer;
-use Generated\Shared\Transfer\SitemapTransfer;
+use Generated\Shared\Transfer\SitemapFileTransfer;
+use Generated\Shared\Transfer\SitemapRequestTransfer;
 use Spryker\Zed\Kernel\Communication\Controller\AbstractGatewayController;
 
 /**
@@ -12,12 +14,13 @@ use Spryker\Zed\Kernel\Communication\Controller\AbstractGatewayController;
 class GatewayController extends AbstractGatewayController
 {
     /**
-     * @param \Generated\Shared\Transfer\SitemapTransfer $transfer
+     * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\SitemapResponseTransfer
+     * @return \Generated\Shared\Transfer\SitemapFileTransfer
      */
-    public function getSitemapAction(SitemapTransfer $transfer): SitemapResponseTransfer
+    public function findSitemapByFilenameAction(SitemapRequestTransfer $sitemapRequestTransfer): SitemapFileTransfer
     {
-        return $this->getFacade()->getSitemapIndexContent($transfer);
+        return $this->getFacade()
+            ->findSitemapByFilename($sitemapRequestTransfer);
     }
 }

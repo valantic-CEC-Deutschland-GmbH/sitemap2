@@ -8,6 +8,9 @@ use Spryker\Yves\Router\Route\RouteCollection;
 
 class SitemapControllerProvider extends AbstractRouteProviderPlugin
 {
+    /**
+     * @var string
+     */
     public const SITEMAP_INDEX = 'sitemap-index';
 
     /**

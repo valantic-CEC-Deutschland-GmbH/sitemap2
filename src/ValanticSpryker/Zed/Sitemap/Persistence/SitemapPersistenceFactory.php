@@ -1,26 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ValanticSpryker\Zed\Sitemap\Persistence;
 
-use Orm\Zed\Category\Persistence\SpyCategoryNodeQuery;
-use Orm\Zed\Locale\Persistence\SpyLocaleQuery;
+use Orm\Zed\Sitemap\Persistence\PyzSitemapQuery;
 use Orm\Zed\UrlStorage\Persistence\SpyUrlStorageQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
 
 /**
  * @method \ValanticSpryker\Zed\Sitemap\SitemapConfig getConfig()
- * @method \ValanticSpryker\Zed\Sitemap\Persistence\SitemapQueryContainerInterface getQueryContainer()
+ * @method \ValanticSpryker\Zed\Sitemap\Persistence\SitemapRepositoryInterface getRepository()
+ * @method \ValanticSpryker\Zed\Sitemap\Persistence\SitemapEntityManagerInterface getEntityManager()
  */
 class SitemapPersistenceFactory extends AbstractPersistenceFactory
 {
-    /**
-     * @return array
-     */
-    public function getAvailableLocale(): array
-    {
-        return $this->getConfig()->getAvailableLocale();
-    }
-
     /**
      * @return \Orm\Zed\UrlStorage\Persistence\SpyUrlStorageQuery
      */
@@ -30,18 +24,10 @@ class SitemapPersistenceFactory extends AbstractPersistenceFactory
     }
 
     /**
-     * @return \Orm\Zed\Locale\Persistence\SpyLocaleQuery
+     * @return \Orm\Zed\Sitemap\Persistence\PyzSitemapQuery
      */
-    public function getSpyLocaleQuery(): SpyLocaleQuery
+    public function getPyzSitemapQuery(): PyzSitemapQuery
     {
-        return SpyLocaleQuery::create();
-    }
-
-    /**
-     * @return \Orm\Zed\Category\Persistence\SpyCategoryNodeQuery
-     */
-    public function getSpyCategoryNodeQuery(): SpyCategoryNodeQuery
-    {
-        return SpyCategoryNodeQuery::create();
+        return PyzSitemapQuery::create();
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<database xmlns="spryker:schema-01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          name="zed"
+          xsi:schemaLocation="spryker:schema-01 https://static.spryker.com/schema-01.xsd"
+          namespace="Orm\Zed\Sitemap\Persistence"
+          package="src.Orm.Zed.Sitemap.Persistence">
+
+    <table name="pyz_sitemap">
+        <column name="id_sitemap" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
+        <column name="name" type="VARCHAR" size="255" required="true"/>
+        <column name="content" type="CLOB" required="true"/>
+
+        <behavior name="timestampable"/>
+
+        <unique name="pyz_sitemap_unique_key">
+            <unique-column name="name"/>
+        </unique>
+
+        <id-method-parameter value="pyz_sitemap_pk_seq"/>
+    </table>
+</database>

@@ -56,7 +56,7 @@ class IndexController extends AbstractController
      *
      * @return string
      */
-    private function formatFilename(string $filename): string
+    protected function formatFilename(string $filename): string
     {
         $filename = array_reverse(explode('/', $filename));
 

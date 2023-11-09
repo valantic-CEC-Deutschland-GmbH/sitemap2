@@ -8,6 +8,9 @@ use Spryker\Client\ZedRequest\ZedRequestClient;
 
 class SitemapDependencyProvider extends AbstractDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const CLIENT_ZED_REQUEST = 'CLIENT_ZED_REQUEST';
 
     /**
