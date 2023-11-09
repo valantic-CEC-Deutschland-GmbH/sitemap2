@@ -3,13 +3,18 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
 
-    <transfer name="Sitemap">
-        <property name="locale" type="string"/>
-        <property name="url" type="string"/>
-        <property name="file" type="string"/>
+    <transfer name="SitemapFile">
+        <property name="idSitemap" type="integer"/>
+        <property name="name" type="string"/>
+        <property name="content" type="string"/>
     </transfer>
-    <transfer name="SitemapResponse">
-        <property name="urls" type="string"/>
-        <property name="isSuccess" type="bool"/>
+
+    <transfer name="SitemapUrl">
+        <property name="url" type="string"/>
+        <property name="updatedAt" type="string"/>
+    </transfer>
+
+    <transfer name="SitemapRequest">
+        <property name="filename" type="string"/>
     </transfer>
 </transfers>

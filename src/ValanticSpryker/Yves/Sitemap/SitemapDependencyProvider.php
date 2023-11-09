@@ -8,6 +8,9 @@ use ValanticSpryker\Client\Sitemap\SitemapClient;
 
 class SitemapDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const CLIENT_SITEMAP = 'CLIENT_SITEMAP';
 
     /**

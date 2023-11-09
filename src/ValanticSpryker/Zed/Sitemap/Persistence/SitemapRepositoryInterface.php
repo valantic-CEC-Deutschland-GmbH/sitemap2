@@ -2,20 +2,19 @@
 
 declare(strict_types = 1);
 
-namespace ValanticSpryker\Zed\Sitemap\Business;
+namespace ValanticSpryker\Zed\Sitemap\Persistence;
 
 use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapRequestTransfer;
 
-interface SitemapFacadeInterface
+interface SitemapRepositoryInterface
 {
     /**
-     * Specification:
-     * - creates sitemap XML files and stores them to database
+     * @param array<string> $names
      *
-     * @return void
+     * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
      */
-    public function createSitemapXml(): void;
+    public function findAllSitemapsExceptWithGivenNames(array $names): array;
 
     /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer

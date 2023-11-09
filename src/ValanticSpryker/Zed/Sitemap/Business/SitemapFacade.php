@@ -1,37 +1,36 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ValanticSpryker\Zed\Sitemap\Business;
 
-use Generated\Shared\Transfer\SitemapResponseTransfer;
-use Generated\Shared\Transfer\SitemapTransfer;
+use Generated\Shared\Transfer\SitemapFileTransfer;
+use Generated\Shared\Transfer\SitemapRequestTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
+ * @method \ValanticSpryker\Zed\Sitemap\Persistence\SitemapRepositoryInterface getRepository()
  * @method \ValanticSpryker\Zed\Sitemap\Business\SitemapBusinessFactory getFactory()
  */
 class SitemapFacade extends AbstractFacade implements SitemapFacadeInterface
 {
     /**
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\SitemapTransfer $sitemapTransfer
-     *
      * @return void
      */
-    public function createSitemapXml(SitemapTransfer $sitemapTransfer): void
+    public function createSitemapXml(): void
     {
-        $this->getFactory()->createSitemapHandler()->createSitemapXml($sitemapTransfer);
+        $this->getFactory()->createSitemapCreatorSupervisor()->create();
     }
 
     /**
-     * @api
+     * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer
      *
-     * @param \Generated\Shared\Transfer\SitemapTransfer $transfer
-     *
-     * @return \Generated\Shared\Transfer\SitemapResponseTransfer
+     * @return \Generated\Shared\Transfer\SitemapFileTransfer
      */
-    public function getSitemapIndexContent(SitemapTransfer $transfer): SitemapResponseTransfer
+    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): SitemapFileTransfer
     {
-        return $this->getFactory()->createSitemapHandler()->getSitemapIndexContent($transfer);
+        return $this->getFactory()
+            ->createSitemapReader()
+            ->findSitemapByFilename($sitemapRequestTransfer);
     }
 }
