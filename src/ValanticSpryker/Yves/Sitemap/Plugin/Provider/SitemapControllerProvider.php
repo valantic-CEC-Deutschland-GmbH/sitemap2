@@ -4,16 +4,29 @@ declare(strict_types = 1);
 
 namespace ValanticSpryker\Yves\Sitemap\Plugin\Provider;
 
-use Spryker\Shared\Kernel\Store;
 use Spryker\Yves\Router\Plugin\RouteProvider\AbstractRouteProviderPlugin;
 use Spryker\Yves\Router\Route\RouteCollection;
 
+/**
+ * @method \ValanticSpryker\Yves\Sitemap\SitemapFactory getFactory()
+ */
 class SitemapControllerProvider extends AbstractRouteProviderPlugin
 {
     /**
      * @var string
      */
     public const SITEMAP_INDEX = 'sitemap-index';
+
+    /**
+     * @todo look for a way to refactor according to available connectors
+     *
+     * @var array
+     */
+    public const AVAILABLE_RESOURCES = [
+        'products',
+        'categories',
+        'cms',
+    ];
 
     /**
      * Specification:
@@ -48,8 +61,9 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
 
     /**
      * Takes into consideration the following paths:
-     * - {$storeLocales}/sitemap_{number}.xml
-     * - {$storeLocales}/sitemap.xml
+     * - sitemap_products_{storeName}_{number}.xml
+     * - sitemap_categories_{storeName}_{number}.xml
+     * - sitemap_cms_{storeName}_{number}.xml
      * - sitemap_{number}.xml
      * - sitemap.xml
      *
@@ -57,15 +71,47 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
      */
     protected function getSitemapPattern(): string
     {
-        $systemLocales = Store::getInstance()->getLocales();
+        $storeNames = $this->getStoreNames();
+        $availableResourcesPattern = $this->getAvailableResourcesPattern();
 
-        if ($systemLocales) {
-            $locales = '(' . implode('|', array_keys($systemLocales)) . ')';
-            $pattern = '((sitemap(\_' . $locales . ')?)|(' . $locales . '\/sitemap(\_' . $locales . ')?))(\_[0-9]+)?\.xml';
+        if ($storeNames) {
+            $storeNamePattern = '(\_(' . implode('|', $storeNames) . '))?';
+            $pattern = '(sitemap)' . $availableResourcesPattern . $storeNamePattern . '(\_[0-9]+)?\.xml';
         } else {
-            $pattern = '(sitemap)(\_[0-9]+)?\.xml';
+            $pattern = '(sitemap)' . $availableResourcesPattern . '(\_[0-9]+)?\.xml';
         }
 
         return $pattern;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getStoreNames(): array
+    {
+        //@todo remove usage of getStoresWithSharedPersistence (deprecated)
+        //@todo refactor console command to use correct store for urls
+        $currentStore = $this->getFactory()
+            ->getStoreClient()
+            ->getCurrentStore();
+
+        $storeName = $currentStore->getName();
+        $otherStores = array_values($currentStore->getStoresWithSharedPersistence());
+
+        $storeNames = array_merge($otherStores, [$storeName]);
+
+        return array_map('strtolower', $storeNames);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAvailableResourcesPattern(): string
+    {
+        if (!static::AVAILABLE_RESOURCES) {
+            return '';
+        }
+
+        return '(\_' . implode('|\_', array_values(static::AVAILABLE_RESOURCES)) . ')?';
     }
 }
