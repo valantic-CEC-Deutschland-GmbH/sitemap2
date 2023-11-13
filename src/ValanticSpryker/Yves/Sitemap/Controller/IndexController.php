@@ -2,12 +2,11 @@
 
 namespace ValanticSpryker\Yves\Sitemap\Controller;
 
-use Generated\Shared\Transfer\SitemapTransfer;
+use Generated\Shared\Transfer\SitemapRequestTransfer;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method \ValanticSpryker\Yves\Sitemap\SitemapFactory getFactory()
@@ -17,27 +16,25 @@ class IndexController extends AbstractController
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request): Response
     {
         $filename = $this->formatFilename($request->getPathInfo());
 
-        $sitemapTransfer = $this->createSitemapTransfer()
-            ->setFile($filename)
-            ->setLocale($this->getLocale());
+        $sitemapRequestTransfer = $this->createSitemapRequestTransfer()
+            ->setFilename($filename);
 
         $sitemapContent = $this->getFactory()
             ->getSitemapClient()
-            ->getSitemap($sitemapTransfer);
+            ->getSitemap($sitemapRequestTransfer);
 
-        if ($sitemapContent->getIsSuccess() === false) {
-            throw new NotFoundHttpException();
-        }
+        //@todo add isSuccess to sitemap request transfer
+//        if ($sitemapContent->getIsSuccess() === false) {
+//            throw new NotFoundHttpException();
+//        }
 
-        $response = new Response($sitemapContent->getUrls());
+        $response = new Response($sitemapContent->getContent());
         $response->headers->set('Content-Type', 'application/xml');
 
         return $response;
@@ -64,10 +61,10 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @return \Generated\Shared\Transfer\SitemapTransfer
+     * @return \Generated\Shared\Transfer\SitemapRequestTransfer
      */
-    protected function createSitemapTransfer(): SitemapTransfer
+    protected function createSitemapRequestTransfer(): SitemapRequestTransfer
     {
-        return new SitemapTransfer();
+        return new SitemapRequestTransfer();
     }
 }

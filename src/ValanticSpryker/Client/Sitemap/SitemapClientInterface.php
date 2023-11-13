@@ -2,8 +2,8 @@
 
 namespace ValanticSpryker\Client\Sitemap;
 
-use Generated\Shared\Transfer\SitemapResponseTransfer;
-use Generated\Shared\Transfer\SitemapTransfer;
+use Generated\Shared\Transfer\SitemapFileTransfer;
+use Generated\Shared\Transfer\SitemapRequestTransfer;
 
 interface SitemapClientInterface
 {
@@ -13,9 +13,9 @@ interface SitemapClientInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\SitemapTransfer $sitemapTransfer
+     * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapTransfer
      *
-     * @return \Generated\Shared\Transfer\SitemapResponseTransfer
+     * @return \Generated\Shared\Transfer\SitemapFileTransfer
      */
-    public function getSitemap(SitemapTransfer $sitemapTransfer): SitemapResponseTransfer;
+    public function getSitemap(SitemapRequestTransfer $sitemapTransfer): SitemapFileTransfer;
 }

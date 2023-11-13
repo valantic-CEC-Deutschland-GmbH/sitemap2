@@ -2,8 +2,8 @@
 
 namespace ValanticSpryker\Client\Sitemap;
 
-use Generated\Shared\Transfer\SitemapResponseTransfer;
-use Generated\Shared\Transfer\SitemapTransfer;
+use Generated\Shared\Transfer\SitemapFileTransfer;
+use Generated\Shared\Transfer\SitemapRequestTransfer;
 use Spryker\Client\Kernel\AbstractClient;
 use ValanticSpryker\Client\Sitemap\Zed\SitemapStubInterface;
 
@@ -15,9 +15,9 @@ class SitemapClient extends AbstractClient implements SitemapClientInterface
     /**
      * @param \Generated\Shared\Transfer\SitemapTransfer $sitemapTransfer
      *
-     * @return \Generated\Shared\Transfer\SitemapResponseTransfer
+     * @return \Generated\Shared\Transfer\SitemapFileTransfer
      */
-    public function getSitemap(SitemapTransfer $sitemapTransfer): SitemapResponseTransfer
+    public function getSitemap(SitemapRequestTransfer $sitemapTransfer): SitemapFileTransfer
     {
         return $this->getZedStub()->getSitemap($sitemapTransfer);
     }
