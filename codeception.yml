@@ -18,7 +18,7 @@ paths:
 coverage:
     enabled: true
     include:
-        - src/ValanticSprykerShop/*.php
+        - src/ValanticSpryker/*.php
 
 modules:
     enabled:

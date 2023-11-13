@@ -9,6 +9,10 @@ use Generated\Shared\Transfer\SitemapFileTransfer;
 interface SitemapServiceInterface
 {
     /**
+     * Creates sitemap xml file transfer
+     *
+     * @api
+     *
      * @param array $urlList
      * @param int $page
      * @param string $storeName

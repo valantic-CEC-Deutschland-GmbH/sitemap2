@@ -5,7 +5,8 @@
     "license": "MIT",
     "require": {
         "php": ">=7.4",
-        "spryker/kernel": "^3.30.0"
+        "spryker/kernel": "^3.30.0",
+        "spryker/router": "^1.14.0"
     },
     "autoload": {
         "psr-4": {
@@ -62,7 +63,7 @@
         "cs-fix": "phpcbf --standard=phpcs.xml src/ tests/",
         "cs-check": "phpcs -s --standard=phpcs.xml --report=full src/ tests/",
         "md-check": "phpmd src/ text phpmd-ruleset.xml --minimumpriority 2",
-        "stan": "php vendor/bin/phpstan analyze src/ValanticSprykerShop/",
+        "stan": "php vendor/bin/phpstan analyze src/ValanticSpryker",
         "test": "codecept run --env standalone --coverage-text --no-colors --coverage-html"
     }
 }
