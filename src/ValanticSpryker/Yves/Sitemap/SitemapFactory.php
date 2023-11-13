@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ValanticSpryker\Yves\Sitemap;
 
 use Spryker\Yves\Kernel\AbstractFactory;

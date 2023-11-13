@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ValanticSpryker\Zed\Sitemap\Persistence;
 
@@ -33,9 +33,9 @@ class SitemapRepository extends AbstractRepository implements SitemapRepositoryI
     /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\SitemapFileTransfer
+     * @return \Generated\Shared\Transfer\SitemapFileTransfer|null
      */
-    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): SitemapFileTransfer
+    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): ?SitemapFileTransfer
     {
         $sitemapEntity = $this->getFactory()
             ->getPyzSitemapQuery()
@@ -43,7 +43,7 @@ class SitemapRepository extends AbstractRepository implements SitemapRepositoryI
             ->findOne();
 
         if ($sitemapEntity === null) {
-            return new SitemapFileTransfer();
+            return null;
         }
 
         return (new SitemapFileTransfer())->fromArray($sitemapEntity->toArray(), true);

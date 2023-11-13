@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ValanticSpryker\Yves\Sitemap\Controller;
 
 use Generated\Shared\Transfer\SitemapRequestTransfer;
@@ -7,6 +9,7 @@ use Spryker\Shared\Kernel\Store;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method \ValanticSpryker\Yves\Sitemap\SitemapFactory getFactory()
@@ -15,6 +18,8 @@ class IndexController extends AbstractController
 {
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -25,16 +30,15 @@ class IndexController extends AbstractController
         $sitemapRequestTransfer = $this->createSitemapRequestTransfer()
             ->setFilename($filename);
 
-        $sitemapContent = $this->getFactory()
+        $sitemapResponseTransfer = $this->getFactory()
             ->getSitemapClient()
             ->getSitemap($sitemapRequestTransfer);
 
-        //@todo add isSuccess to sitemap request transfer
-//        if ($sitemapContent->getIsSuccess() === false) {
-//            throw new NotFoundHttpException();
-//        }
+        if (!$sitemapResponseTransfer->getIsSuccessful()) {
+            throw new NotFoundHttpException();
+        }
 
-        $response = new Response($sitemapContent->getContent());
+        $response = new Response($sitemapResponseTransfer->getSitemapFile()->getContent());
         $response->headers->set('Content-Type', 'application/xml');
 
         return $response;

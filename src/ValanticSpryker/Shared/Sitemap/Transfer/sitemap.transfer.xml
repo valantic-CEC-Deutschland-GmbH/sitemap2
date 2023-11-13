@@ -17,4 +17,9 @@
     <transfer name="SitemapRequest">
         <property name="filename" type="string"/>
     </transfer>
+
+    <transfer name="SitemapResponse">
+        <property name="sitemapFile" type="SitemapFile"/>
+        <property name="isSuccessful" type="bool"/>
+    </transfer>
 </transfers>

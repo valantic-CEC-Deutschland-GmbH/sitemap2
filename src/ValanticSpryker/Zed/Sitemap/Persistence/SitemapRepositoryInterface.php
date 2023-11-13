@@ -19,7 +19,7 @@ interface SitemapRepositoryInterface
     /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\SitemapFileTransfer
+     * @return \Generated\Shared\Transfer\SitemapFileTransfer|null
      */
-    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): SitemapFileTransfer;
+    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): ?SitemapFileTransfer;
 }

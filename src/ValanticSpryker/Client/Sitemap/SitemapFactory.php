@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ValanticSpryker\Client\Sitemap;
 
 use Spryker\Client\Kernel\AbstractFactory;

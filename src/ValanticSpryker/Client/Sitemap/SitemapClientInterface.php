@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ValanticSpryker\Client\Sitemap;
 
-use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapRequestTransfer;
+use Generated\Shared\Transfer\SitemapResponseTransfer;
 
 interface SitemapClientInterface
 {
@@ -15,7 +17,7 @@ interface SitemapClientInterface
      *
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapTransfer
      *
-     * @return \Generated\Shared\Transfer\SitemapFileTransfer
+     * @return \Generated\Shared\Transfer\SitemapResponseTransfer
      */
-    public function getSitemap(SitemapRequestTransfer $sitemapTransfer): SitemapFileTransfer;
+    public function getSitemap(SitemapRequestTransfer $sitemapTransfer): SitemapResponseTransfer;
 }
