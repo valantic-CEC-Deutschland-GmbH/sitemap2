@@ -1,0 +1,32 @@
+namespace: ValanticSprykerTest\Zes\Sitemap
+
+paths:
+    tests: .
+    data: _data
+    support: _support
+    output: _output
+
+coverage:
+    enabled: true
+    remote: false
+    whitelist: { include: ['../../../../src/*'] }
+
+suites:
+    Plugin:
+        path: .
+        actor: SitemapTester
+        modules:
+            enabled:
+                - \SprykerTest\Shared\Testify\Helper\Environment
+                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
+                - \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                      projectNamespaces: [ 'ValanticSprykerShop' ]
+                - \SprykerTest\Shared\Transfer\Helper\TransferGenerateHelper
+                - \FondOfCodeception\Module\Spryker
+            config:
+                \FondOfCodeception\Module\Spryker:
+                    generate_transfer: true
+                    generate_map_classes: true
+                    generate_propel_classes: true
+                    generate_ide_auto_completion: true
+

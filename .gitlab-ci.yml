@@ -1,36 +1,6 @@
 image: registry.gitlab.nxs360.com/docker/php:7.4-cli
 
-stages:
-  - validation
-  - deploy
-  - post-test
-
-composer:validate:
-  stage: validation
-  script:
-    - composer validate
-    - composer install
-    - composer cs-check
-    # - composer md-check
-
-deploy:composer:
-  stage: deploy
-  script:
-    - version=$([[ -z "$CI_COMMIT_TAG" ]] && echo "branch=$CI_COMMIT_REF_NAME" || echo "tag=$CI_COMMIT_TAG")
-    - response=$(curl -s -w "\n%{http_code}" $insecure --data $version $URL)
-    - code=$(echo "$response" | tail -n 1)
-    - body=$(echo "$response" | head -n 1)
-    # Output state information
-    - |
-      if [ $code -eq 201 ]; then
-        echo "Package created - Code $code - $body";
-      else
-        echo "Could not create package - Code $code - $body";
-        exit 1
-      fi
-  variables:
-    URL: "${CI_API_V4_URL}/projects/$CI_PROJECT_ID/packages/composer?job_token=$CI_JOB_TOKEN"
-  rules:
-    - if: $CI_MERGE_REQUEST_ID
-      when: never
-    - if: $CI_COMMIT_TAG =~ /^?[0-9]+[.][0-9]+([.][0-9]+)?$/
+include:
+    - project: packages/gitlab-templates/ci-cd-template-spryker-composer-package
+      ref: main
+      file: .gitlab-ci.yml
