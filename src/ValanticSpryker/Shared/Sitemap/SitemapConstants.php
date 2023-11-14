@@ -45,4 +45,12 @@ interface SitemapConstants
      * @var string
      */
     public const SITEMAP_NAMESPACE = 'http://www.sitemaps.org/schemas/sitemap/0.9';
+
+    /**
+     * Specification:
+     * - Flag whether to filter sitemap resources based on Spryker blacklist feature
+     *
+     * @var string
+     */
+    public const SITEMAP_USE_BLACKLISTS = 'SITEMAP:SITEMAP_USE_BLACKLISTS';
 }
