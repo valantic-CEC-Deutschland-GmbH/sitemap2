@@ -12,6 +12,8 @@
 
     <transfer name="SitemapUrl">
         <property name="url" type="string"/>
+        <property name="resourceId" type="int"/>
+        <property name="resourceType" type="string"/>
         <property name="updatedAt" type="string"/>
     </transfer>
 
