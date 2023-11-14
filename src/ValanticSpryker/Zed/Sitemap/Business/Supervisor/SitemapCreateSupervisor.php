@@ -68,7 +68,7 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
             );
         }
 
-        $this->removeUnnecessarySitemapFilesByStoreName();
+        $this->removeUnnecessarySitemapFiles($sitemapList);
         $this->storeSitemapFiles($sitemapList);
         $this->createSitemapIndex();
     }
@@ -86,12 +86,20 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
     }
 
     /**
+     * @param array<\Generated\Shared\Transfer\SitemapFileTransfer> $sitemapList
+     *
      * @return void
      */
-    protected function removeUnnecessarySitemapFilesByStoreName(): void
+    protected function removeUnnecessarySitemapFiles(array $sitemapList): void
     {
+        $savedSitemapNames = [];
+
+        foreach ($sitemapList as $sitemapFileTransfer) {
+            $savedSitemapNames[] = $sitemapFileTransfer->getName();
+        }
+
         $storeName = $this->storeFacade->getCurrentStore()->getName();
-        $sitemapsToRemove = $this->repository->findAllSitemapsByStoreName($storeName);
+        $sitemapsToRemove = $this->repository->findAllSitemapsByStoreNameExceptWithGivenNames($storeName, $savedSitemapNames);
 
         foreach ($sitemapsToRemove as $sitemapToRemove) {
             $this->entityManager->removeSitemap($sitemapToRemove->getIdSitemap());
