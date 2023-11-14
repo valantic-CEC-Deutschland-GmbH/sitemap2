@@ -6,6 +6,7 @@ namespace ValanticSpryker\Zed\Sitemap\Business\Supervisor;
 
 use DOMDocument;
 use Generated\Shared\Transfer\SitemapFileTransfer;
+use Spryker\Zed\Store\Business\StoreFacadeInterface;
 use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 use ValanticSpryker\Zed\Sitemap\Dependency\Plugin\SitemapCreatorPluginInterface;
 use ValanticSpryker\Zed\Sitemap\Persistence\SitemapEntityManagerInterface;
@@ -14,6 +15,12 @@ use ValanticSpryker\Zed\Sitemap\SitemapConfig;
 
 class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
 {
+    protected const EXCLUDED_SITEMAP_FILE_NAMES = [
+        'sitemap.xml',
+    ];
+
+    protected StoreFacadeInterface $storeFacade;
+
     protected array $sitemapCreatorPlugins;
 
     protected SitemapEntityManagerInterface $entityManager;
@@ -23,17 +30,20 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
     protected SitemapConfig $config;
 
     /**
+     * @param \Spryker\Zed\Store\Business\StoreFacadeInterface $storeFacade
      * @param array<\ValanticSpryker\Zed\Sitemap\Dependency\Plugin\SitemapCreatorPluginInterface> $sitemapCreatorPlugins
      * @param \ValanticSpryker\Zed\Sitemap\Persistence\SitemapEntityManagerInterface $entityManager
      * @param \ValanticSpryker\Zed\Sitemap\Persistence\SitemapRepositoryInterface $repository
      * @param \ValanticSpryker\Zed\Sitemap\SitemapConfig $config
      */
     public function __construct(
+        StoreFacadeInterface $storeFacade,
         array $sitemapCreatorPlugins,
         SitemapEntityManagerInterface $entityManager,
         SitemapRepositoryInterface $repository,
         SitemapConfig $config
     ) {
+        $this->storeFacade = $storeFacade;
         $this->sitemapCreatorPlugins = $sitemapCreatorPlugins;
         $this->entityManager = $entityManager;
         $this->repository = $repository;
@@ -57,9 +67,10 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
                 $sitemapCreator->createSitemapXml(),
             );
         }
-        $sitemapList = $this->addSitemapIndex($sitemapList);
-        $this->removeUnnecessarySitemapFiles($sitemapList);
+
+        $this->removeUnnecessarySitemapFilesByStoreName();
         $this->storeSitemapFiles($sitemapList);
+        $this->createSitemapIndex();
     }
 
     /**
@@ -75,19 +86,12 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
     }
 
     /**
-     * @param array $sitemapList
-     *
      * @return void
      */
-    protected function removeUnnecessarySitemapFiles(array $sitemapList): void
+    protected function removeUnnecessarySitemapFilesByStoreName(): void
     {
-        $savedSitemapNames = [];
-
-        foreach ($sitemapList as $sitemapFileTransfer) {
-            $savedSitemapNames[] = $sitemapFileTransfer->getName();
-        }
-
-        $sitemapsToRemove = $this->repository->findAllSitemapsExceptWithGivenNames($savedSitemapNames);
+        $storeName = $this->storeFacade->getCurrentStore()->getName();
+        $sitemapsToRemove = $this->repository->findAllSitemapsByStoreName($storeName);
 
         foreach ($sitemapsToRemove as $sitemapToRemove) {
             $this->entityManager->removeSitemap($sitemapToRemove->getIdSitemap());
@@ -95,12 +99,12 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
     }
 
     /**
-     * @param array $sitemapList
-     *
-     * @return array
+     * @return void
      */
-    protected function addSitemapIndex(array $sitemapList): array
+    protected function createSitemapIndex(): void
     {
+        $sitemapList = $this->repository->findAllSitemapsExceptWithGivenNames(static::EXCLUDED_SITEMAP_FILE_NAMES);
+
         $domTree = new DOMDocument('1.0', 'UTF-8');
 
         $domTree->preserveWhiteSpace = false;
@@ -120,9 +124,8 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
             );
         }
 
-        $sitemapList[] = $this->createSitemapFileTransfer($domTree);
-
-        return $sitemapList;
+        $sitemapFileTransfer = $this->createSitemapFileTransfer($domTree);
+        $this->entityManager->saveSitemapFile($sitemapFileTransfer);
     }
 
     /**

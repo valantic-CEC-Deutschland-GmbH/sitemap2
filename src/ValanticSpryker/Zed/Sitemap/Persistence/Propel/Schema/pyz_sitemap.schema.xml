@@ -9,6 +9,7 @@
         <column name="id_sitemap" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
         <column name="name" type="VARCHAR" size="255" required="true"/>
         <column name="content" type="CLOB" required="true"/>
+        <column name="storeName" type="VARCHAR" size="255"/>
 
         <behavior name="timestampable"/>
 

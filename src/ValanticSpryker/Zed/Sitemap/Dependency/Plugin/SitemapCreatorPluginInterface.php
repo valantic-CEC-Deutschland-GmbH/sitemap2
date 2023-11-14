@@ -7,7 +7,7 @@ namespace ValanticSpryker\Zed\Sitemap\Dependency\Plugin;
 interface SitemapCreatorPluginInterface
 {
     /**
-     * @return array
+     * @return array<\Generated\Shared\Transfer\SitemapFileTransfer>
      */
     public function createSitemapXml(): array;
 }

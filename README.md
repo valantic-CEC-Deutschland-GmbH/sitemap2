@@ -67,7 +67,7 @@ use [...]
 class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
 {
     [...]
-    
+
      /**
      * @param \Spryker\Zed\Kernel\Container $container
      *
@@ -87,8 +87,8 @@ class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
 - Add cronjob in current/config/Zed/cronjobs/jenkins.php
 ```php
 $jobs[] = [
-    'name' => 'generate-sitemap-de',
-    'command' => '$PHP_BIN vendor/bin/console sitemap:generate de -vvv',
+    'name' => 'generate-sitemap',
+    'command' => '$PHP_BIN vendor/bin/console sitemap:generate -vvv',
     'schedule' => '0 0 1 1 *',
     'enable' => false,
     'run_on_non_production' => true,
@@ -97,19 +97,9 @@ $jobs[] = [
 ```
 
 6. Adjust config file
-- Add sitemap constants with your locales
+- Add sitemap constants
 ```php
-$config[SitemapConstants::SITEMAP_LOCALES] = [
-    'ESA' => [
-        'locales' => [
-            'de' => 'de_CH',
-            'fr' => 'fr_CH',
-            'it' => 'it_CH',
-        ]
-    ]
-];
 $config[SitemapConstants::SITEMAP_URL_LIMIT] = 50;
-$config[SitemapConstants::SITEMAP_SIZE_LIMIT] = 100;
 ```
 
 7. Copy vendor template files into project folder
@@ -121,8 +111,9 @@ cp -r vendor/valantic-spryker/sitemap/src/ValanticSpryker/Zed/Sitemap/Presentati
 ## Access Sitemap
 The following paths are considered
 ```
-  - {$storeLocales}/sitemap_{number}.xml
-  - {$storeLocales}/sitemap.xml
+  - sitemap_products_{storeName}_{number}.xml
+  - sitemap_categories_{storeName}_{number}.xml
+  - sitemap_cms_{storeName}_{number}.xml
   - sitemap_{number}.xml
   - sitemap.xml
 ```

@@ -6,6 +6,7 @@ namespace ValanticSpryker\Zed\Sitemap\Persistence;
 
 use Orm\Zed\Sitemap\Persistence\PyzSitemapQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
+use ValanticSpryker\Zed\Sitemap\Persistence\Mapper\SitemapMapper;
 
 /**
  * @method \ValanticSpryker\Zed\Sitemap\SitemapConfig getConfig()
@@ -20,5 +21,13 @@ class SitemapPersistenceFactory extends AbstractPersistenceFactory
     public function getPyzSitemapQuery(): PyzSitemapQuery
     {
         return PyzSitemapQuery::create();
+    }
+
+    /**
+     * @return \ValanticSpryker\Zed\Sitemap\Persistence\Mapper\SitemapMapper
+     */
+    public function createSitemapMapper(): SitemapMapper
+    {
+        return new SitemapMapper();
     }
 }

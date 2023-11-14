@@ -17,6 +17,13 @@ interface SitemapRepositoryInterface
     public function findAllSitemapsExceptWithGivenNames(array $names): array;
 
     /**
+     * @param string $storeName
+     *
+     * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
+     */
+    public function findAllSitemapsByStoreName(string $storeName): array;
+
+    /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer
      *
      * @return \Generated\Shared\Transfer\SitemapFileTransfer|null

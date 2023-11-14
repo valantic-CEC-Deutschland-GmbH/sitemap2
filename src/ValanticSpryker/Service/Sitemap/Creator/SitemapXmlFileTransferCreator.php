@@ -45,22 +45,22 @@ class SitemapXmlFileTransferCreator
             $urlNode->appendChild($domtree->createElement('lastmod', $url->getUpdatedAt()));
         }
 
-        return $this->createSitemapFileTransfer($filename, $domtree->saveXML());
+        return $this->createSitemapFileTransfer($filename, $domtree->saveXML(), $storeName);
     }
 
     /**
      * @param string $filename
      * @param string $sitemapContent
+     * @param string $storeName
      *
      * @return \Generated\Shared\Transfer\SitemapFileTransfer
      */
-    protected function createSitemapFileTransfer(string $filename, string $sitemapContent): SitemapFileTransfer
+    protected function createSitemapFileTransfer(string $filename, string $sitemapContent, string $storeName): SitemapFileTransfer
     {
-        $sitemapFileTransfer = (new SitemapFileTransfer())
+        return (new SitemapFileTransfer())
+            ->setStoreName($storeName)
             ->setName($filename)
             ->setContent($sitemapContent);
-
-        return $sitemapFileTransfer;
     }
 
     /**

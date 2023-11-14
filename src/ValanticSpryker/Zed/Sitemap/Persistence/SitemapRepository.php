@@ -4,11 +4,9 @@ declare(strict_types = 1);
 
 namespace ValanticSpryker\Zed\Sitemap\Persistence;
 
-use Generated\Shared\Transfer\PyzSitemapEntityTransfer;
 use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapRequestTransfer;
 use Propel\Runtime\ActiveQuery\Criteria;
-use Propel\Runtime\Collection\ObjectCollection;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**
@@ -27,7 +25,25 @@ class SitemapRepository extends AbstractRepository implements SitemapRepositoryI
             ->getPyzSitemapQuery()
             ->filterByName($names, Criteria::NOT_IN);
 
-        return $this->mapPyzSitemapCollectionToEntityTransfers($query->find());
+        return $this->getFactory()
+            ->createSitemapMapper()
+            ->mapPyzSitemapCollectionToSitemapFileTransfers($query->find());
+    }
+
+    /**
+     * @param string $storeName
+     *
+     * @return \Generated\Shared\Transfer\PyzSitemapEntityTransfer[]
+     */
+    public function findAllSitemapsByStoreName(string $storeName): array
+    {
+        $query = $this->getFactory()
+            ->getPyzSitemapQuery()
+            ->filterByStoreName($storeName);
+
+        return $this->getFactory()
+            ->createSitemapMapper()
+            ->mapPyzSitemapCollectionToEntityTransfers($query->find());
     }
 
     /**
@@ -47,21 +63,5 @@ class SitemapRepository extends AbstractRepository implements SitemapRepositoryI
         }
 
         return (new SitemapFileTransfer())->fromArray($sitemapEntity->toArray(), true);
-    }
-
-    /**
-     * @param \Propel\Runtime\Collection\ObjectCollection $sitemaps
-     *
-     * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
-     */
-    protected function mapPyzSitemapCollectionToEntityTransfers(ObjectCollection $sitemaps): array
-    {
-        $entityTransfers = [];
-
-        foreach ($sitemaps as $sitemap) {
-            $entityTransfers[] = (new PyzSitemapEntityTransfer())->fromArray($sitemap->toArray(), true);
-        }
-
-        return $entityTransfers;
     }
 }
