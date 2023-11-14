@@ -28,6 +28,7 @@ class SitemapEntityManager extends AbstractEntityManager implements SitemapEntit
 
         $sitemapEntity->setContent($sitemapFileTransfer->getContent());
         $sitemapEntity->setStoreName($sitemapFileTransfer->getStoreName());
+        $sitemapEntity->setYvesBaseUrl($sitemapFileTransfer->getYvesBaseUrl());
         $sitemapEntity->save();
 
         $sitemapEntityTransfer = new PyzSitemapEntityTransfer();

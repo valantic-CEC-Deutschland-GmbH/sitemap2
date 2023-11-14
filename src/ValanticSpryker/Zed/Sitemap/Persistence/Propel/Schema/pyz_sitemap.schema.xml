@@ -10,6 +10,7 @@
         <column name="name" type="VARCHAR" size="255" required="true"/>
         <column name="content" type="CLOB" required="true"/>
         <column name="storeName" type="VARCHAR" size="255"/>
+        <column name="yvesBaseUrl" type="VARCHAR" size="255"/>
 
         <behavior name="timestampable"/>
 

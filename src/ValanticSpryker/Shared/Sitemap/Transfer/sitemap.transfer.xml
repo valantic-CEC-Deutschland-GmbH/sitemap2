@@ -8,6 +8,7 @@
         <property name="name" type="string"/>
         <property name="content" type="string"/>
         <property name="storeName" type="string"/>
+        <property name="yvesBaseUrl" type="string"/>
     </transfer>
 
     <transfer name="SitemapUrl">

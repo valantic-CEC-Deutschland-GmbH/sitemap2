@@ -117,7 +117,7 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
             $sitemapIndexNode = $domTree->createElement('sitemap');
             $sitemapIndexNode = $sitemapIndex->appendChild($sitemapIndexNode);
 
-            $domElement = $domTree->createElement('loc', $this->config->getYvesBaseUrl() . '/' . $sitemapItem->getName());
+            $domElement = $domTree->createElement('loc', $sitemapItem->getYvesBaseUrl() . '/' . $sitemapItem->getName());
 
             $sitemapIndexNode->appendChild(
                 $domElement,

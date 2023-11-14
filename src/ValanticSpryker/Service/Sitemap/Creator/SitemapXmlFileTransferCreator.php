@@ -6,10 +6,21 @@ namespace ValanticSpryker\Service\Sitemap\Creator;
 
 use DOMDocument;
 use Generated\Shared\Transfer\SitemapFileTransfer;
+use ValanticSpryker\Service\Sitemap\SitemapConfig;
 use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 
 class SitemapXmlFileTransferCreator
 {
+    protected SitemapConfig $config;
+
+    /**
+     * @param \ValanticSpryker\Service\Sitemap\SitemapConfig $config
+     */
+    public function __construct(SitemapConfig $config)
+    {
+        $this->config = $config;
+    }
+
     /**
      * @param array<\Generated\Shared\Transfer\SitemapUrlTransfer> $urlList
      * @param int $page
@@ -59,6 +70,7 @@ class SitemapXmlFileTransferCreator
     {
         return (new SitemapFileTransfer())
             ->setStoreName($storeName)
+            ->setYvesBaseUrl($this->config->getYvesBaseUrl())
             ->setName($filename)
             ->setContent($sitemapContent);
     }

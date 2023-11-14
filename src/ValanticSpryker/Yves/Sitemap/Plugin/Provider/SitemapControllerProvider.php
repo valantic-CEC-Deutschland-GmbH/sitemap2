@@ -71,11 +71,11 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
      */
     protected function getSitemapPattern(): string
     {
-        $storeNames = $this->getStoreNames();
+        $storeName = $this->getStoreName();
         $availableResourcesPattern = $this->getAvailableResourcesPattern();
 
-        if ($storeNames) {
-            $storeNamePattern = '(\_(' . implode('|', $storeNames) . '))?';
+        if ($storeName) {
+            $storeNamePattern = '(\_(' . $storeName . '))?';
             $pattern = '(sitemap)' . $availableResourcesPattern . $storeNamePattern . '(\_[0-9]+)?\.xml';
         } else {
             $pattern = '(sitemap)' . $availableResourcesPattern . '(\_[0-9]+)?\.xml';
@@ -85,22 +85,17 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
     }
 
     /**
-     * @return array
+     * @return string|null
      */
-    protected function getStoreNames(): array
+    protected function getStoreName(): ?string
     {
-        //@todo remove usage of getStoresWithSharedPersistence (deprecated)
-        //@todo refactor console command to use correct store for urls
         $currentStore = $this->getFactory()
             ->getStoreClient()
             ->getCurrentStore();
 
         $storeName = $currentStore->getName();
-        $otherStores = array_values($currentStore->getStoresWithSharedPersistence());
 
-        $storeNames = array_merge($otherStores, [$storeName]);
-
-        return array_map('strtolower', $storeNames);
+        return $storeName ? strtolower($storeName) : null;
     }
 
     /**
