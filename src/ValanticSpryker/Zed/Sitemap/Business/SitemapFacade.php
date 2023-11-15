@@ -19,7 +19,9 @@ class SitemapFacade extends AbstractFacade implements SitemapFacadeInterface
      */
     public function createSitemapXml(): void
     {
-        $this->getFactory()->createSitemapCreatorSupervisor()->create();
+        $this->getFactory()
+            ->createSitemapCreatorSupervisor()
+            ->create();
     }
 
     /**

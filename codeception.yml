@@ -2,6 +2,10 @@ namespace: ValanticSprykerTest
 
 include:
     - tests/ValanticSprykerTest/*
+exclude:
+    - src/ValanticSpryker/*Factory.php
+    - src/ValanticSpryker/*DependencyProvider.php
+    - src/ValanticSpryker/*Config.php
 
 settings:
     shuffle: false
@@ -17,8 +21,13 @@ paths:
 
 coverage:
     enabled: true
-    include:
-        - src/ValanticSpryker/*.php
+    whitelist:
+        include:
+            - src/ValanticSpryker/*.php
+        exclude:
+            - src/ValanticSpryker/*Factory.php
+            - src/ValanticSpryker/*DependencyProvider.php
+            - src/ValanticSpryker/*Config.php
 
 modules:
     enabled:

@@ -16,7 +16,7 @@ use ValanticSpryker\Zed\Sitemap\SitemapConfig;
 class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
 {
     protected const EXCLUDED_SITEMAP_FILE_NAMES = [
-        'sitemap.xml',
+        SitemapConstants::SITEMAP_NAME . SitemapConstants::DOT_XML_EXTENSION,
     ];
 
     protected StoreFacadeInterface $storeFacade;

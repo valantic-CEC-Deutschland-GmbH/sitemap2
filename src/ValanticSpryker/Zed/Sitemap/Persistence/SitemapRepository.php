@@ -60,7 +60,7 @@ class SitemapRepository extends AbstractRepository implements SitemapRepositoryI
             ->filterByName($sitemapRequestTransfer->getFilename())
             ->findOne();
 
-        if ($sitemapEntity === null) {
+        if (!$sitemapEntity) {
             return null;
         }
 

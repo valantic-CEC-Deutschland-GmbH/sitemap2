@@ -1,4 +1,4 @@
-namespace: ValanticSprykerTest\Zes\Sitemap
+namespace: ValanticSprykerTest\Zed\Sitemap
 
 paths:
     tests: .
@@ -9,19 +9,25 @@ paths:
 coverage:
     enabled: true
     remote: false
-    whitelist: { include: ['../../../../src/*'] }
+    include:
+        - '../../../../src/*'
+    exclude:
+        - '../../../../src/ValanticSpryker/*Factory.php'
+        - '../../../../src/ValanticSpryker/*DependencyProvider.php'
+        - '../../../../src/ValanticSpryker/*Config.php'
 
 suites:
-    Plugin:
+    Business:
         path: .
         actor: SitemapTester
         modules:
             enabled:
                 - \SprykerTest\Shared\Testify\Helper\Environment
-                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
+                - \SprykerTest\Shared\Propel\Helper\TransactionHelper
                 - \SprykerTest\Shared\Testify\Helper\LocatorHelper:
-                      projectNamespaces: [ 'ValanticSprykerShop' ]
-                - \SprykerTest\Shared\Transfer\Helper\TransferGenerateHelper
+                      projectNamespaces: [ 'ValanticSpryker' ]
+                - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
+                - \SprykerTest\Zed\Testify\Helper\Business\DependencyProviderHelper
                 - \FondOfCodeception\Module\Spryker
             config:
                 \FondOfCodeception\Module\Spryker:

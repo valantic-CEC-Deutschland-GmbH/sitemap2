@@ -30,7 +30,7 @@ class SitemapReader implements SitemapReaderInterface
         $sitemapFileTransfer = $this->repository->findSitemapByFilename($sitemapRequestTransfer);
 
         return (new SitemapResponseTransfer())
-            ->setIsSuccessful($sitemapRequestTransfer !== null)
+            ->setIsSuccessful($sitemapFileTransfer !== null)
             ->setSitemapFile($sitemapFileTransfer);
     }
 }
