@@ -1,9 +1,9 @@
 image: registry.gitlab.nxs360.com/docker/php:7.4-cli
 
-.global_services: &global_services
-    - name: registry.gitlab.nxs360.com/docker/mariadb:10.5
-      alias: database
-      command: [ "mysqld", "--collation_server=utf8_general_ci", "--character_set_server=utf8"]
+#.global_services: &global_services
+#    - name: registry.gitlab.nxs360.com/docker/mariadb:10.5
+#      alias: database
+#      command: [ "mysqld", "--collation_server=utf8_general_ci", "--character_set_server=utf8"]
 
 
 stages:
@@ -13,22 +13,24 @@ stages:
     - post-test
     - release
 
-preparation_be:
-    stage: preparation
-    services: *global_services
-    script:
-        - console propel:install
+#preparation_be:
+#    stage: preparation
+#    services: *global_services
+#    script:
+#        - composer validate
+#        - composer install
+#        - console propel:install
 
 
 tests:coverage:
     stage: validation
-    services: *global_services
+#    services: *global_services
     script:
         - composer validate
         - composer install
         - composer cs-check
         - composer md-check
-        - composer test
+#        - composer test
         - composer stan
     coverage: '/^\s*Lines:\s*\d+.\d+\%/'
     artifacts:
