@@ -31,6 +31,7 @@ class SitemapHelperCreatorPlugin implements SitemapCreatorPluginInterface
             'name' => static::TEST_NAME,
             'content' => static::TEST_CONTENT,
             'yvesBaseUrl' => static::TEST_BASE_URL,
+            'storeName' => getenv('APPLICATION_STORE'),
         ]))->build();
 
         return [$sitemapFileTransfer];

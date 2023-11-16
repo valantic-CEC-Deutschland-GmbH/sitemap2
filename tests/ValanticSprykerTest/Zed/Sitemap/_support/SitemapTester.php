@@ -62,10 +62,11 @@ class SitemapTester extends \Codeception\Actor
 
         $sitemapEntity = (PyzSitemapQuery::create())
             ->filterByName($sitemapFileTransfer->getName())
-            ->filterByContent($sitemapFileTransfer->getContent())
-            ->filterByStoreName($sitemapFileTransfer->getStoreName())
-            ->filterByYvesBaseUrl($sitemapFileTransfer->getYvesBaseUrl())
             ->findOneOrCreate();
+
+        $sitemapEntity->setContent($sitemapFileTransfer->getContent())
+            ->setStoreName($sitemapFileTransfer->getStoreName())
+            ->setYvesBaseUrl($sitemapFileTransfer->getYvesBaseUrl());
 
         $sitemapEntity->save();
 

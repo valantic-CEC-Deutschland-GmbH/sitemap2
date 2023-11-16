@@ -8,9 +8,10 @@ paths:
 
 coverage:
     enabled: true
+    show_uncovered: true
     remote: false
     include:
-        - '../../../../src/*'
+        - '../../../../src/ValanticSpryker/*'
     exclude:
         - '../../../../src/ValanticSpryker/*Factory.php'
         - '../../../../src/ValanticSpryker/*DependencyProvider.php'
@@ -22,13 +23,16 @@ suites:
         actor: SitemapTester
         modules:
             enabled:
-                - \SprykerTest\Shared\Testify\Helper\Environment
+                - \SprykerTest\Shared\Testify\Helper\Environment:
+                    isolated: true
                 - \SprykerTest\Shared\Propel\Helper\TransactionHelper
                 - \SprykerTest\Shared\Testify\Helper\LocatorHelper:
                       projectNamespaces: [ 'ValanticSpryker' ]
                 - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
                 - \SprykerTest\Zed\Testify\Helper\Business\DependencyProviderHelper
                 - \FondOfCodeception\Module\Spryker
+                - \SprykerTest\Shared\Transfer\Helper\TransferGenerateHelper:
+                      isolated: true
             config:
                 \FondOfCodeception\Module\Spryker:
                     generate_transfer: true
