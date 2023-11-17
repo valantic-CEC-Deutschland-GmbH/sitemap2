@@ -6,9 +6,6 @@ namespace ValanticSpryker\Zed\Sitemap;
 
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
-use ValanticSpryker\Zed\CategorySitemapConnector\Communication\Plugin\CategorySitemapCreatorPlugin;
-use ValanticSpryker\Zed\ContentPageSitemapConnector\Communication\ContentPageSitemapCreatorPlugin;
-use ValanticSpryker\Zed\ProductAbstractSitemapConnector\Communication\Plugin\ProductAbstractSitemapCreatorPlugin;
 
 class SitemapDependencyProvider extends AbstractBundleDependencyProvider
 {
@@ -92,9 +89,7 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     protected function getSitemapCreatorPluginStack(): array
     {
         return [
-            new ProductAbstractSitemapCreatorPlugin(),
-            new ContentPageSitemapCreatorPlugin(),
-            new CategorySitemapCreatorPlugin(),
+
         ];
     }
 }
