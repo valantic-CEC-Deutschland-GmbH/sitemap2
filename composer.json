@@ -64,6 +64,6 @@
         "cs-check": "phpcs -s --standard=phpcs.xml --report=full src/ tests/",
         "md-check": "phpmd src/ text phpmd-ruleset.xml --minimumpriority 2",
         "stan": "php vendor/bin/phpstan analyze src/ValanticSpryker",
-        "test": "codecept run --env standalone --coverage-text --no-colors --coverage-html --skip-group Sitemap"
+        "test": "codecept run --env standalone --coverage-text --no-colors --coverage-html --skip-group SitemapDb"
     }
 }

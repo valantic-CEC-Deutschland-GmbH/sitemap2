@@ -19,7 +19,7 @@ use ValanticSprykerTest\Zed\Sitemap\Helper\SitemapHelperCreatorPlugin;
 use ValanticSprykerTest\Zed\Sitemap\SitemapTester;
 
 /**
- * @group Sitemap
+ * @group SitemapDb
  */
 class SitemapFacadeTest extends Unit
 {
