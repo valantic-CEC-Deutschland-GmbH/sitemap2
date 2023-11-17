@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace ValanticSpryker\Yves\Sitemap\Controller;
 
 use Generated\Shared\Transfer\SitemapRequestTransfer;
-use Spryker\Shared\Kernel\Store;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,14 +41,6 @@ class IndexController extends AbstractController
         $response->headers->set('Content-Type', 'application/xml');
 
         return $response;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getLocale(): string
-    {
-        return explode('_', (Store::getInstance())->getCurrentLocale())[0];
     }
 
     /**

@@ -1,4 +1,4 @@
-namespace: ValanticSprykerTest\Service\Sitemap
+namespace: ValanticSprykerTest\Yves\Sitemap
 
 paths:
     tests: .
@@ -18,9 +18,9 @@ coverage:
         - '../../../../src/ValanticSpryker/*Config.php'
 
 suites:
-    Service:
+    Yves:
         path: .
-        actor: SitemapServiceTester
+        actor: SitemapYvesTester
         modules:
             enabled:
                 - \SprykerTest\Shared\Testify\Helper\Environment:
@@ -28,8 +28,8 @@ suites:
                 - \SprykerTest\Shared\Testify\Helper\LocatorHelper:
                       projectNamespaces: [ 'ValanticSpryker' ]
                 - \SprykerTest\Shared\Testify\Helper\ConfigHelper
-                - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
-                - \SprykerTest\Zed\Testify\Helper\Business\DependencyProviderHelper
+                - \SprykerTest\Yves\Testify\Helper\FactoryHelper
+                - \SprykerTest\Shared\Testify\Helper\DependencyHelper
                 - \FondOfCodeception\Module\Spryker
                 - \SprykerTest\Shared\Transfer\Helper\TransferGenerateHelper:
                       isolated: true
