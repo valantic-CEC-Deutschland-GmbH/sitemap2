@@ -25,4 +25,12 @@ class SitemapFactory extends AbstractFactory
     {
         return $this->getProvidedDependency(SitemapDependencyProvider::CLIENT_STORE);
     }
+
+    /**
+     * @return array<string>
+     */
+    public function getAvailableResourceTypes(): array
+    {
+        return $this->getProvidedDependency(SitemapDependencyProvider::RESOURCES_SITEMAP);
+    }
 }

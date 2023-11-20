@@ -7,7 +7,7 @@ namespace ValanticSpryker\Yves\Sitemap;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
-use ValanticSpryker\Client\Sitemap\SitemapClient;
+use ValanticSpryker\Client\Sitemap\SitemapClientInterface;
 
 class SitemapDependencyProvider extends AbstractBundleDependencyProvider
 {
@@ -22,6 +22,11 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     public const CLIENT_STORE = 'CLIENT_STORE';
 
     /**
+     * @var string
+     */
+    public const RESOURCES_SITEMAP = 'RESOURCES_SITEMAP';
+
+    /**
      * @param \Spryker\Yves\Kernel\Container $container
      *
      * @return \ValanticSpryker\Client\Sitemap\SitemapClientInterface|\Spryker\Yves\Kernel\Container
@@ -30,6 +35,7 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     {
         $this->addSitemapClient($container);
         $this->addStoreClient($container);
+        $this->addAvailableSitemapRouteResources($container);
 
         return $container;
     }
@@ -47,9 +53,9 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     /**
      * @param \Spryker\Yves\Kernel\Container $container
      *
-     * @return \ValanticSpryker\Client\Sitemap\SitemapClient
+     * @return \ValanticSpryker\Client\Sitemap\SitemapClientInterface
      */
-    protected function getSitemapClient(Container $container): SitemapClient
+    protected function getSitemapClient(Container $container): SitemapClientInterface
     {
         return $container->getLocator()->sitemap()->client();
     }
@@ -72,5 +78,25 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     protected function getStoreClient(Container $container): StoreClientInterface
     {
         return $container->getLocator()->store()->client();
+    }
+
+    /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return void
+     */
+    protected function addAvailableSitemapRouteResources(Container $container): void
+    {
+        $container->set(self::RESOURCES_SITEMAP, $this->getAvailableSitemapRouteResources());
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function getAvailableSitemapRouteResources(): array
+    {
+        return [
+            // Here register resource types from connector modules
+        ];
     }
 }

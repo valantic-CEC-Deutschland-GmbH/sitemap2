@@ -18,17 +18,6 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
     public const SITEMAP_INDEX = 'sitemap-index';
 
     /**
-     * @todo look for a way to refactor according to available connectors
-     *
-     * @var array
-     */
-    public const AVAILABLE_RESOURCES = [
-        'products',
-        'categories',
-        'cms',
-    ];
-
-    /**
      * Specification:
      * - Adds Routes to the RouteCollection.
      *
@@ -103,10 +92,28 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
      */
     protected function getAvailableResourcesPattern(): string
     {
-        if (!static::AVAILABLE_RESOURCES) {
+        $availableResources = $this
+            ->getFactory()
+            ->getAvailableResourceTypes();
+
+        if (!$availableResources) {
             return '';
         }
 
-        return '(\_' . implode('|\_', array_values(static::AVAILABLE_RESOURCES)) . ')?';
+        $availableResources = $this->prepareResourceStringsForRegex($availableResources);
+
+        return '(\_' . implode('|\_', $availableResources) . ')?';
+    }
+
+    /**
+     * @param array<string> $availableResources
+     *
+     * @return array<string>
+     */
+    protected function prepareResourceStringsForRegex(array $availableResources): array
+    {
+        return array_map(static function (string $resource): string {
+            return preg_quote($resource, '/');
+        }, $availableResources);
     }
 }

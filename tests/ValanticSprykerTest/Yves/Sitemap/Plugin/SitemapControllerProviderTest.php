@@ -38,6 +38,14 @@ class SitemapControllerProviderTest extends Unit
 
         $this->storeClientMock = $this->createMock(StoreClient::class);
         $this->tester->setDependency(SitemapDependencyProvider::CLIENT_STORE, $this->storeClientMock);
+        $this->tester->setDependency(
+            SitemapDependencyProvider::RESOURCES_SITEMAP,
+            [
+                'abstract_product',
+                'categories',
+                'cms',
+            ],
+        );
         $this->sut = new SitemapControllerProvider();
     }
 
@@ -56,7 +64,7 @@ class SitemapControllerProviderTest extends Unit
         $route = $routeCollection->getIterator()->current();
 
         $this->assertEquals(1, $routeCollection->count());
-        $this->assertEquals('(sitemap)(\_products|\_categories|\_cms)?(\_(de))?(\_[0-9]+)?\.xml', $route->getRequirements()['name']);
+        $this->assertEquals('(sitemap)(\_abstract_product|\_categories|\_cms)?(\_(de))?(\_[0-9]+)?\.xml', $route->getRequirements()['name']);
     }
 
     /**
@@ -77,6 +85,6 @@ class SitemapControllerProviderTest extends Unit
         $route = $routeCollection->getIterator()->current();
 
         $this->assertEquals(1, $routeCollection->count());
-        $this->assertEquals('(sitemap)(\_products|\_categories|\_cms)?(\_[0-9]+)?\.xml', $route->getRequirements()['name']);
+        $this->assertEquals('(sitemap)(\_abstract_product|\_categories|\_cms)?(\_[0-9]+)?\.xml', $route->getRequirements()['name']);
     }
 }
