@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ValanticSpryker\Service\Sitemap\Creator;
 
+use DateTime;
 use DOMDocument;
 use Generated\Shared\Transfer\SitemapFileTransfer;
 use ValanticSpryker\Service\Sitemap\SitemapConfig;
@@ -11,6 +12,8 @@ use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 
 class SitemapXmlFileTransferCreator
 {
+    protected const W3C_FORMAT = 'Y-m-d';
+
     protected SitemapConfig $config;
 
     /**
@@ -53,7 +56,7 @@ class SitemapXmlFileTransferCreator
             $urlNode = $domtree->createElement('url');
             $urlNode = $urlSet->appendChild($urlNode);
             $urlNode->appendChild($domtree->createElement('loc', htmlspecialchars($url->getUrl())));
-            $urlNode->appendChild($domtree->createElement('lastmod', $url->getUpdatedAt()));
+            $urlNode->appendChild($domtree->createElement('lastmod', $this->updateToCorrectDateFormat($url->getUpdatedAt())));
         }
 
         return $this->createSitemapFileTransfer($filename, $domtree->saveXML(), $storeName);
@@ -95,5 +98,15 @@ class SitemapXmlFileTransferCreator
             $pageNumber,
             SitemapConstants::DOT_XML_EXTENSION,
         );
+    }
+
+    /**
+     * @param string $dateTime
+     *
+     * @return string
+     */
+    protected function updateToCorrectDateFormat(string $dateTime): string
+    {
+        return (new DateTime($dateTime))->format(self::W3C_FORMAT);
     }
 }
