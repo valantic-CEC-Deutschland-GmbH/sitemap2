@@ -7,17 +7,17 @@ namespace ValanticSpryker\Service\Sitemap\Creator;
 use DateTime;
 use DOMDocument;
 use Generated\Shared\Transfer\SitemapFileTransfer;
-use ValanticSpryker\Service\Sitemap\SitemapServiceConfig;
+use ValanticSpryker\Service\Sitemap\SitemapConfig;
 use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 
 class SitemapXmlFileTransferCreator
 {
-    protected SitemapServiceConfig $config;
+    protected SitemapConfig $config;
 
     /**
-     * @param \ValanticSpryker\Service\Sitemap\SitemapServiceConfig $config
+     * @param \ValanticSpryker\Service\Sitemap\SitemapConfig $config
      */
-    public function __construct(SitemapServiceConfig $config)
+    public function __construct(SitemapConfig $config)
     {
         $this->config = $config;
     }
@@ -105,6 +105,6 @@ class SitemapXmlFileTransferCreator
      */
     protected function updateToCorrectDateFormat(string $dateTime): string
     {
-        return (new DateTime($dateTime))->format(SitemapServiceConfig::LAST_MOD_FORMAT);
+        return (new DateTime($dateTime))->format(SitemapConfig::LAST_MOD_FORMAT);
     }
 }

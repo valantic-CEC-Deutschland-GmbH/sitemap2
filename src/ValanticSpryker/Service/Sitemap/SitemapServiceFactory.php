@@ -8,7 +8,7 @@ use Spryker\Service\Kernel\AbstractServiceFactory;
 use ValanticSpryker\Service\Sitemap\Creator\SitemapXmlFileTransferCreator;
 
 /**
- * @method \ValanticSpryker\Service\Sitemap\SitemapServiceConfig getConfig()
+ * @method \ValanticSpryker\Service\Sitemap\SitemapConfig getConfig()
  */
 class SitemapServiceFactory extends AbstractServiceFactory
 {
