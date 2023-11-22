@@ -37,6 +37,6 @@ suites:
                 \FondOfCodeception\Module\Spryker:
                     generate_transfer: true
                     generate_map_classes: true
-                    generate_propel_classes: true
+                    generate_propel_classes: false
                     generate_ide_auto_completion: true
 
