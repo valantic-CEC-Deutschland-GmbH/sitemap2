@@ -7,8 +7,10 @@ namespace ValanticSpryker\Service\Sitemap;
 use Spryker\Service\Kernel\AbstractBundleConfig;
 use Spryker\Shared\Application\ApplicationConstants;
 
-class SitemapConfig extends AbstractBundleConfig
+class SitemapServiceConfig extends AbstractBundleConfig
 {
+    public const LAST_MOD_FORMAT = 'Y-m-d\TH:i:sP';
+
     /**
      * @return string
      */
