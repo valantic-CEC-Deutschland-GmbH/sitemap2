@@ -5,8 +5,10 @@ declare(strict_types = 1);
 namespace ValanticSprykerTest\Service\Sitemap;
 
 use Codeception\Test\Unit;
+use DateTime;
 use Generated\Shared\DataBuilder\SitemapUrlBuilder;
 use Generated\Shared\Transfer\SitemapUrlTransfer;
+use ValanticSpryker\Service\Sitemap\SitemapConfig;
 use ValanticSpryker\Service\Sitemap\SitemapService;
 use ValanticSpryker\Service\Sitemap\SitemapServiceInterface;
 
@@ -45,7 +47,7 @@ class SitemapServiceTest extends Unit
         $sitemapFileTransfer = $this->sut->createSitemapXmlFileTransfer($urlList, $page, $storeName, $fileType);
 
         $expectedLoc = $sitemapUrl->getUrl();
-        $expectedDate = $sitemapUrl->getUpdatedAt();
+        $expectedDate = (new DateTime($sitemapUrl->getUpdatedAt()))->format(SitemapConfig::LAST_MOD_FORMAT);
         $expectedXmlString = <<<EOD
         <?xml version="1.0" encoding="UTF-8"?>
             <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
