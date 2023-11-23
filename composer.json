@@ -6,7 +6,8 @@
     "require": {
         "php": ">=7.4",
         "spryker/kernel": "^3.30.0",
-        "spryker/router": "^1.14.0"
+        "spryker/router": "^1.14.0",
+        "league/uri": "6.7.2"
     },
     "autoload": {
         "psr-4": {

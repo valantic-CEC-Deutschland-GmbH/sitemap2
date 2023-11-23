@@ -8,6 +8,7 @@ use DateTime;
 use DOMDocument;
 use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapUrlTransfer;
+use League\Uri\Uri;
 use ValanticSpryker\Service\Sitemap\SitemapConfig;
 use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 
@@ -122,6 +123,8 @@ class SitemapXmlFileTransferCreator
      */
     protected function prepareUrl(SitemapUrlTransfer $url): string
     {
-        return htmlspecialchars(trim($url->getUrl(), '/'));
+        $trimmed = rtrim($url->getUrl(), '/');
+        $encodedUrl = Uri::createFromString($trimmed)->toString();
+        return htmlspecialchars($encodedUrl);
     }
 }
