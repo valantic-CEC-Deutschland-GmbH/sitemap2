@@ -123,8 +123,8 @@ class SitemapXmlFileTransferCreator
      */
     protected function prepareUrl(SitemapUrlTransfer $url): string
     {
-        $trimmed = rtrim($url->getUrl(), '/');
-        $encodedUrl = Uri::createFromString($trimmed)->toString();
+        $encodedUrl = Uri::createFromString($url->getUrl())->toString();
+
         return htmlspecialchars($encodedUrl);
     }
 }

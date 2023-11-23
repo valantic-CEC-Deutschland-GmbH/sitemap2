@@ -12,7 +12,7 @@ interface SitemapRepositoryInterface
     /**
      * @param array<string> $names
      *
-     * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
+     * @return array<\Generated\Shared\Transfer\SitemapFileTransfer>
      */
     public function findAllSitemapsExceptWithGivenNames(array $names): array;
 
@@ -20,7 +20,7 @@ interface SitemapRepositoryInterface
      * @param string $storeName
      * @param array<string> $names
      *
-     * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
+     * @return array<\Generated\Shared\Transfer\SitemapFileTransfer>
      */
     public function findAllSitemapsByStoreNameExceptWithGivenNames(string $storeName, array $names): array;
 
