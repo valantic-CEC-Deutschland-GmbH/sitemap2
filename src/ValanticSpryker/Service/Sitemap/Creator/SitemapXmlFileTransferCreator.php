@@ -7,6 +7,7 @@ namespace ValanticSpryker\Service\Sitemap\Creator;
 use DateTime;
 use DOMDocument;
 use Generated\Shared\Transfer\SitemapFileTransfer;
+use Generated\Shared\Transfer\SitemapUrlTransfer;
 use ValanticSpryker\Service\Sitemap\SitemapConfig;
 use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 
@@ -53,7 +54,7 @@ class SitemapXmlFileTransferCreator
         foreach ($urlList as $url) {
             $urlNode = $domtree->createElement('url');
             $urlNode = $urlSet->appendChild($urlNode);
-            $urlNode->appendChild($domtree->createElement('loc', htmlspecialchars($url->getUrl())));
+            $urlNode->appendChild($domtree->createElement('loc', $this->prepareUrl($url)));
             $urlNode->appendChild($domtree->createElement('lastmod', $this->updateToCorrectDateFormat($url->getUpdatedAt())));
         }
 
@@ -106,5 +107,15 @@ class SitemapXmlFileTransferCreator
     protected function updateToCorrectDateFormat(string $dateTime): string
     {
         return (new DateTime($dateTime))->format(SitemapConfig::LAST_MOD_FORMAT);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\SitemapUrlTransfer $url
+     *
+     * @return string
+     */
+    protected function prepareUrl(SitemapUrlTransfer $url): string
+    {
+        return htmlspecialchars(trim($url->getUrl(), '/'));
     }
 }
