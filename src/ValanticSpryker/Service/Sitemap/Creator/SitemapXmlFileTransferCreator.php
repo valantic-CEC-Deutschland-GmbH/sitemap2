@@ -13,6 +13,11 @@ use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 
 class SitemapXmlFileTransferCreator
 {
+    protected const TAG_URL = 'url';
+    protected const TAG_LOC = 'loc';
+    protected const TAG_LAST_MOD = 'lastmod';
+    protected const TAG_PRIORITY = 'priority';
+
     protected SitemapConfig $config;
 
     /**
@@ -52,11 +57,11 @@ class SitemapXmlFileTransferCreator
 
         /** @var \Generated\Shared\Transfer\SitemapUrlTransfer $url */
         foreach ($urlList as $url) {
-            $urlNode = $domtree->createElement('url');
+            $urlNode = $domtree->createElement(self::TAG_URL);
             $urlNode = $urlSet->appendChild($urlNode);
-            $urlNode->appendChild($domtree->createElement('loc', $this->prepareUrl($url)));
-            $urlNode->appendChild($domtree->createElement('lastmod', $this->updateToCorrectDateFormat($url->getUpdatedAt())));
-            $urlNode->appendChild($domtree->createElement('priority', '1.0'));
+            $urlNode->appendChild($domtree->createElement(self::TAG_LOC, $this->prepareUrl($url)));
+            $urlNode->appendChild($domtree->createElement(self::TAG_LAST_MOD, $this->updateToCorrectDateFormat($url->getUpdatedAt())));
+            $urlNode->appendChild($domtree->createElement(self::TAG_PRIORITY, '1.0'));
         }
 
         return $this->createSitemapFileTransfer($filename, $domtree->saveXML(), $storeName);
