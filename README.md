@@ -20,14 +20,25 @@ composer config gitlab-token.gitlab.nxs360.com <personal_access_token>
 
 Make sure to add **auth.json** to your **.gitignore**.
 
-## Implementation
+## Installation
 
 1. Install dependency
 ```
 composer require valantic-spryker/sitemap
 ```
 
-2. Register RouterPlugin
+2. Make sure that ValanticSpryker namespace is registered in `config_default.php`
+
+```php
+$config[KernelConstants::CORE_NAMESPACES] = [
+    'SprykerShop',
+    'SprykerEco',
+    'Spryker',
+    'ValanticSpryker',
+];
+```
+
+3. Register RouterPlugin
 ```php
 <?php
 
@@ -83,8 +94,8 @@ class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
 }
 ```
 
-5. Replace project name
-- Add cronjob in current/config/Zed/cronjobs/jenkins.php
+5. Add cronjob in `jenkins.php`
+
 ```php
 $jobs[] = [
     'name' => 'generate-sitemap',
@@ -96,24 +107,25 @@ $jobs[] = [
 ];
 ```
 
-6. Adjust config file
-- Add sitemap constants
+6. You can optionally add sitemap url limit per one XML file in `config_default`. The default is 100.
+
 ```php
 $config[SitemapConstants::SITEMAP_URL_LIMIT] = 50;
 ```
 
-7. Copy vendor template files into project folder
-```
-mkdir -p src/Pyz/Zed/Sitemap/Presentation
-cp -r vendor/valantic-spryker/sitemap/src/ValanticSpryker/Zed/Sitemap/Presentation/* src/Pyz/Zed/Sitemap/Presentation
-```
+7. Register connector modules to see resources such as category, product abstract urls. Information is provided in each connector module:
+   1. https://gitlab.nxs360.com/packages/php/spryker/category-sitemap-connector
+   2. https://gitlab.nxs360.com/packages/php/spryker/content-pages-sitemap-connector
+   3. https://gitlab.nxs360.com/packages/php/spryker/product-abstract-sitemap-connector
+
+8. If you want to retrieve sitemap data from Redis instead of DB, install `sitemap-storage` module:
+   1. https://gitlab.nxs360.com/packages/php/spryker/sitemap-storage
 
 ## Access Sitemap
-The following paths are considered
-```
-  - sitemap_products_{storeName}_{number}.xml
-  - sitemap_categories_{storeName}_{number}.xml
-  - sitemap_cms_{storeName}_{number}.xml
-  - sitemap_{number}.xml
-  - sitemap.xml
-```
+
+The index of sitemap is `/sitemap.xml`, so for example on demo shop that would be http://yves.de.spryker.local/sitemap.xml
+
+Each store has different sitemap, for example:
+
+http://yves.at.spryker.local/sitemap_category_at_1.xml -> AT store
+http://yves.de.spryker.local/sitemap_category_de_1.xml -> DE store
