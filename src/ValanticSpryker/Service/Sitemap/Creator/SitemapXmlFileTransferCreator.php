@@ -56,6 +56,7 @@ class SitemapXmlFileTransferCreator
             $urlNode = $urlSet->appendChild($urlNode);
             $urlNode->appendChild($domtree->createElement('loc', $this->prepareUrl($url)));
             $urlNode->appendChild($domtree->createElement('lastmod', $this->updateToCorrectDateFormat($url->getUpdatedAt())));
+            $urlNode->appendChild($domtree->createElement('priority', '1.0'));
         }
 
         return $this->createSitemapFileTransfer($filename, $domtree->saveXML(), $storeName);
