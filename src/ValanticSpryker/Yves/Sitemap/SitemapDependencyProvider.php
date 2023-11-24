@@ -98,6 +98,8 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     }
 
     /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
      * @return void
      */
     protected function addSitemapResolverPlugin(Container $container): void

@@ -13,7 +13,6 @@ interface SitemapResolverPluginInterface
      * Specification:
      * - Resolves Sitemap from specific location (Redis, Database, ... )
      *
-     *
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapTransfer
      *
      * @return \Generated\Shared\Transfer\SitemapResponseTransfer
