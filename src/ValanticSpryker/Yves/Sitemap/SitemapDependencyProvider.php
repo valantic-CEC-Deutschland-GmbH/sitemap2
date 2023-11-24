@@ -8,6 +8,10 @@ use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use ValanticSpryker\Client\Sitemap\SitemapClientInterface;
+use ValanticSpryker\Shared\CategorySitemapConnector\CategorySitemapConnectorConstants;
+use ValanticSpryker\Shared\ContentPageSitemapConnector\ContentPageSitemapConnectorConstants;
+use ValanticSpryker\Shared\ProductAbstractSitemapConnector\ProductAbstractSitemapConnectorConstants;
+use ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface;
 
 class SitemapDependencyProvider extends AbstractBundleDependencyProvider
 {
@@ -27,15 +31,21 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     public const RESOURCES_SITEMAP = 'RESOURCES_SITEMAP';
 
     /**
+     * @var string
+     */
+    public const RESOLVER_SITEMAP = 'RESOLVER_SITEMAP';
+
+    /**
      * @param \Spryker\Yves\Kernel\Container $container
      *
-     * @return \ValanticSpryker\Client\Sitemap\SitemapClientInterface|\Spryker\Yves\Kernel\Container
+     * @return \Spryker\Yves\Kernel\Container
      */
     public function provideDependencies(Container $container): Container
     {
         $this->addSitemapClient($container);
         $this->addStoreClient($container);
         $this->addAvailableSitemapRouteResources($container);
+        $this->addSitemapResolverPlugin($container);
 
         return $container;
     }
@@ -88,6 +98,22 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     protected function addAvailableSitemapRouteResources(Container $container): void
     {
         $container->set(self::RESOURCES_SITEMAP, $this->getAvailableSitemapRouteResources());
+    }
+
+    /**
+     * @return void
+     */
+    protected function addSitemapResolverPlugin(Container $container): void
+    {
+        $container->set(self::RESOLVER_SITEMAP, $this->getCustomSitemapResolverPlugin());
+    }
+
+    /**
+     * @return \ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface|null
+     */
+    protected function getCustomSitemapResolverPlugin(): ?SitemapResolverPluginInterface
+    {
+        return null; // include custom resolver plugin
     }
 
     /**

@@ -30,7 +30,7 @@ class IndexController extends AbstractController
             ->setFilename($filename);
 
         $sitemapResponseTransfer = $this->getFactory()
-            ->getSitemapClient()
+            ->getSitemapResolverPlugin()
             ->getSitemap($sitemapRequestTransfer);
 
         if (!$sitemapResponseTransfer->getIsSuccessful()) {
