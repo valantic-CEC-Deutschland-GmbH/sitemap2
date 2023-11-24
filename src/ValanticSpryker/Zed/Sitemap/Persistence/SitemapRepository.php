@@ -15,22 +15,6 @@ use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 class SitemapRepository extends AbstractRepository implements SitemapRepositoryInterface
 {
     /**
-     * @param array<string> $names
-     *
-     * @return array<\Generated\Shared\Transfer\SitemapFileTransfer>
-     */
-    public function findAllSitemapsExceptWithGivenNames(array $names): array
-    {
-        $query = $this->getFactory()
-            ->getPyzSitemapQuery()
-            ->filterByName($names, Criteria::NOT_IN);
-
-        return $this->getFactory()
-            ->createSitemapMapper()
-            ->mapPyzSitemapCollectionToSitemapFileTransfers($query->find());
-    }
-
-    /**
      * @param string $storeName
      * @param array<string> $names
      *
