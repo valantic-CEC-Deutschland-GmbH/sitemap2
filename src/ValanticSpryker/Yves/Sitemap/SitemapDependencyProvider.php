@@ -8,9 +8,6 @@ use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use ValanticSpryker\Client\Sitemap\SitemapClientInterface;
-use ValanticSpryker\Shared\CategorySitemapConnector\CategorySitemapConnectorConstants;
-use ValanticSpryker\Shared\ContentPageSitemapConnector\ContentPageSitemapConnectorConstants;
-use ValanticSpryker\Shared\ProductAbstractSitemapConnector\ProductAbstractSitemapConnectorConstants;
 use ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface;
 
 class SitemapDependencyProvider extends AbstractBundleDependencyProvider
