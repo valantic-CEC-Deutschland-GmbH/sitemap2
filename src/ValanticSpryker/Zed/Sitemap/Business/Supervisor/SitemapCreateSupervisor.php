@@ -21,6 +21,9 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
 
     protected StoreFacadeInterface $storeFacade;
 
+    /**
+     * @var array<\ValanticSpryker\Zed\Sitemap\Dependency\Plugin\SitemapCreatorPluginInterface>
+     */
     protected array $sitemapCreatorPlugins;
 
     protected SitemapEntityManagerInterface $entityManager;
@@ -111,7 +114,10 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
      */
     protected function createSitemapIndex(): void
     {
-        $sitemapList = $this->repository->findAllSitemapsExceptWithGivenNames(static::EXCLUDED_SITEMAP_FILE_NAMES);
+        $sitemapList = $this->repository->findAllSitemapsByStoreNameExceptWithGivenNames(
+            $this->storeFacade->getCurrentStore()->getName(),
+            self::EXCLUDED_SITEMAP_FILE_NAMES,
+        );
 
         $domTree = new DOMDocument('1.0', 'UTF-8');
 
