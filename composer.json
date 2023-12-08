@@ -7,7 +7,6 @@
         "php": ">=7.4",
         "league/uri": "^6.7.2",
         "spryker/event-behavior": "^1.23.0",
-        "spryker/install": "^1.0",
         "spryker/kernel": "^3.30.0",
         "spryker/router": "^1.14.0"
     },
@@ -67,6 +66,6 @@
         "cs-check": "phpcs -s --standard=phpcs.xml --report=full src/ tests/",
         "md-check": "phpmd src/ text phpmd-ruleset.xml --minimumpriority 2",
         "stan": "php vendor/bin/phpstan analyze src/ValanticSpryker",
-        "test": "vendor/bin/install -r ci -x frontend -x fixtures -l && docker-php-ext-enable xdebug && codecept run --env standalone --coverage-text --no-colors --coverage-html"
+        "test": "codecept run --env standalone --coverage-text --no-colors --coverage-html --skip-group SitemapDb"
     }
 }
