@@ -11,11 +11,13 @@ coverage:
     show_uncovered: true
     remote: false
     include:
-        - '../../../../src/ValanticSpryker/*'
+        - '../../../../src/ValanticSpryker/Zed/*'
     exclude:
-        - '../../../../src/ValanticSpryker/*Factory.php'
-        - '../../../../src/ValanticSpryker/*DependencyProvider.php'
-        - '../../../../src/ValanticSpryker/*Config.php'
+        - '../../../../src/ValanticSpryker/Zed/*Factory.php'
+        - '../../../../src/ValanticSpryker/Zed/*DependencyProvider.php'
+        - '../../../../src/ValanticSpryker/Zed/*Config.php'
+        - '../../../../src/ValanticSpryker/Zed/*EntityManager.php'
+        - '../../../../src/ValanticSpryker/Zed/*Repository.php'
 
 suites:
     Business:
@@ -25,7 +27,6 @@ suites:
             enabled:
                 - \SprykerTest\Shared\Testify\Helper\Environment:
                     isolated: true
-                - \SprykerTest\Shared\Propel\Helper\TransactionHelper
                 - \SprykerTest\Shared\Testify\Helper\LocatorHelper:
                       projectNamespaces: [ 'ValanticSpryker' ]
                 - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper

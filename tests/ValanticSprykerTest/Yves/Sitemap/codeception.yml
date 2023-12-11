@@ -11,11 +11,12 @@ coverage:
     show_uncovered: true
     remote: false
     include:
-        - '../../../../src/ValanticSpryker/*'
+        - '../../../../src/ValanticSpryker/Yves/*'
     exclude:
-        - '../../../../src/ValanticSpryker/*Factory.php'
-        - '../../../../src/ValanticSpryker/*DependencyProvider.php'
-        - '../../../../src/ValanticSpryker/*Config.php'
+        - '../../../../src/ValanticSpryker/Yves/*Factory.php'
+        - '../../../../src/ValanticSpryker/Yves/*DependencyProvider.php'
+        - '../../../../src/ValanticSpryker/Yves/*Config.php'
+        - '../../../../src/ValanticSpryker/Yves/*Stub.php'
 
 suites:
     Yves:
@@ -29,7 +30,7 @@ suites:
                       projectNamespaces: [ 'ValanticSpryker' ]
                 - \SprykerTest\Shared\Testify\Helper\ConfigHelper
                 - \SprykerTest\Yves\Testify\Helper\FactoryHelper
-                - \SprykerTest\Shared\Testify\Helper\DependencyHelper
+                - \SprykerTest\Yves\Testify\Helper\DependencyProviderHelper
                 - \FondOfCodeception\Module\Spryker
                 - \SprykerTest\Shared\Transfer\Helper\TransferGenerateHelper:
                       isolated: true

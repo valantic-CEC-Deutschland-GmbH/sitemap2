@@ -9,8 +9,8 @@ use Generated\Shared\DataBuilder\SitemapFileBuilder;
 use Generated\Shared\Transfer\SitemapResponseTransfer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use ValanticSpryker\Client\Sitemap\SitemapClient;
 use ValanticSpryker\Client\Sitemap\SitemapClientInterface;
+use ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface;
 use ValanticSpryker\Yves\Sitemap\Controller\IndexController;
 use ValanticSpryker\Yves\Sitemap\SitemapDependencyProvider;
 use ValanticSprykerTest\Yves\Sitemap\SitemapYvesTester;
@@ -22,14 +22,19 @@ class IndexControllerTest extends Unit
 {
     private const FILENAME_SITEMAP_XML = '/sitemap.xml';
     private const METHOD_GET_SITEMAP = 'getSitemap';
+    private const METHOD_GET_FACTORY = 'getFactory';
+    private const METHOD_GET_SITEMAP_RESOLVER_PLUGIN = 'getSitemapResolverPlugin';
     private const XML_CONTENT_TYPE = 'application/xml';
 
     protected SitemapYvesTester $tester;
 
+    /**
+     * @var \ValanticSpryker\Yves\Sitemap\Controller\IndexController|\PHPUnit\Framework\MockObject\MockObject
+     */
     private IndexController $sut;
 
     /**
-     * @var \ValanticSpryker\Client\Sitemap\SitemapClientInterface|\ValanticSprykerTest\Yves\Sitemap\Controller\MockObject
+     * @var \ValanticSpryker\Client\Sitemap\SitemapClientInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private SitemapClientInterface $sitemapClientMock;
 
@@ -40,10 +45,10 @@ class IndexControllerTest extends Unit
     {
         parent::_setup();
 
-        $this->sitemapClientMock = $this->createMock(SitemapClient::class);
+        $this->sitemapClientMock = $this->createMock(SitemapClientInterface::class);
         $this->tester->setDependency(SitemapDependencyProvider::CLIENT_SITEMAP, $this->sitemapClientMock);
 
-        $this->sut = new IndexController();
+        $this->sut = $this->createPartialMock(IndexController::class, [self::METHOD_GET_FACTORY]);
     }
 
     /**
@@ -52,17 +57,10 @@ class IndexControllerTest extends Unit
     public function testIndexActionThrowsExceptionIfFileNotFound(): void
     {
         $request = Request::create(self::FILENAME_SITEMAP_XML);
-        $responseTransfer = (new SitemapResponseTransfer())
-            ->setIsSuccessful(false)
-            ->setSitemapFile(null);
-
-        $this->sitemapClientMock->expects($this->any())
-            ->method(self::METHOD_GET_SITEMAP)
-            ->willReturn($responseTransfer);
-
+        $this->mockSitemapDatabaseResolver();
         $this->expectException(NotFoundHttpException::class);
 
-        $response = $this->sut->indexAction($request);
+        $this->sut->indexAction($request);
     }
 
     /**
@@ -76,7 +74,8 @@ class IndexControllerTest extends Unit
             ->setIsSuccessful(true)
             ->setSitemapFile($sitemapFile);
 
-        $this->sitemapClientMock->expects($this->any())
+        $sitemapDatabaseResolverMock = $this->mockSitemapDatabaseResolver();
+        $sitemapDatabaseResolverMock->expects($this->once())
             ->method(self::METHOD_GET_SITEMAP)
             ->willReturn($responseTransfer);
 
@@ -84,5 +83,20 @@ class IndexControllerTest extends Unit
 
         $this->assertEquals(self::XML_CONTENT_TYPE, $response->headers->get('Content-Type'));
         $this->assertEquals($sitemapFile->getContent(), $response->getContent());
+    }
+
+    /**
+     * @return \ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface
+     */
+    private function mockSitemapDatabaseResolver(): SitemapResolverPluginInterface
+    {
+        $sitemapDatabaseResolverMock = $this->createMock(SitemapResolverPluginInterface::class);
+        $factory = $this->tester->mockFactoryMethod(self::METHOD_GET_SITEMAP_RESOLVER_PLUGIN, $sitemapDatabaseResolverMock);
+
+        $this->sut->expects($this->once())
+            ->method(self::METHOD_GET_FACTORY)
+            ->willReturn($factory);
+
+        return $sitemapDatabaseResolverMock;
     }
 }

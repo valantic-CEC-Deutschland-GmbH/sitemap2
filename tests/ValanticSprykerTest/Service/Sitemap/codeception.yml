@@ -11,11 +11,11 @@ coverage:
     show_uncovered: true
     remote: false
     include:
-        - '../../../../src/ValanticSpryker/*'
+        - '../../../../src/ValanticSpryker/Service/*'
     exclude:
-        - '../../../../src/ValanticSpryker/*Factory.php'
-        - '../../../../src/ValanticSpryker/*DependencyProvider.php'
-        - '../../../../src/ValanticSpryker/*Config.php'
+        - '../../../../src/ValanticSpryker/Service/*Factory.php'
+        - '../../../../src/ValanticSpryker/Service/*DependencyProvider.php'
+        - '../../../../src/ValanticSpryker/Service/*Config.php'
 
 suites:
     Service:

@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace ValanticSprykerTest\Zed\Sitemap;
 
-
-use Generated\Shared\DataBuilder\SitemapFileBuilder;
-use Generated\Shared\Transfer\SitemapFileTransfer;
-use Orm\Zed\Sitemap\Persistence\PyzSitemapQuery;
-
 /**
  * Inherited Methods
  * @method void wantTo($text)
@@ -31,47 +26,4 @@ class SitemapTester extends \Codeception\Actor
     /**
      * Define custom actions here
      */
-
-    /**
-     * @return void
-     */
-    public function deleteSitemapEntities(): void
-    {
-        (PyzSitemapQuery::create())
-            ->filterByName_Like("%%")
-            ->delete();
-    }
-
-    /**
-     * @return array<Orm\Zed\Sitemap\Persistence\PyzSitemap>
-     */
-    public function getSitemapEntities(): array
-    {
-        return (PyzSitemapQuery::create())
-            ->find()
-            ->getData();
-    }
-
-    /**
-     * @return SitemapFileTransfer
-     */
-    public function createSitemapEntity(array $alias = []): SitemapFileTransfer
-    {
-        $sitemapFileTransfer = (new SitemapFileBuilder($alias))->build();
-        $sitemapFileTransfer->setStoreName(getenv('APPLICATION_STORE'));
-
-        $sitemapEntity = (PyzSitemapQuery::create())
-            ->filterByName($sitemapFileTransfer->getName())
-            ->findOneOrCreate();
-
-        $sitemapEntity->setContent($sitemapFileTransfer->getContent())
-            ->setStoreName($sitemapFileTransfer->getStoreName())
-            ->setYvesBaseUrl($sitemapFileTransfer->getYvesBaseUrl());
-
-        $sitemapEntity->save();
-
-        $sitemapFileTransfer->setIdSitemap($sitemapEntity->getIdSitemap());
-
-        return $sitemapFileTransfer;
-    }
 }

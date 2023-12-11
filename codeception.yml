@@ -6,6 +6,9 @@ exclude:
     - src/ValanticSpryker/*Factory.php
     - src/ValanticSpryker/*DependencyProvider.php
     - src/ValanticSpryker/*Config.php
+    - src/ValanticSpryker/*Stub.php
+    - src/ValanticSpryker/*Repository.php
+    - src/ValanticSpryker/*EntityManager.php
 
 settings:
     shuffle: false
@@ -29,6 +32,9 @@ coverage:
             - src/ValanticSpryker/*Factory.php
             - src/ValanticSpryker/*DependencyProvider.php
             - src/ValanticSpryker/*Config.php
+            - src/ValanticSpryker/*Stub.php
+            - src/ValanticSpryker/*Repository.php
+            - src/ValanticSpryker/*EntityManager.php
 
 modules:
     enabled:
