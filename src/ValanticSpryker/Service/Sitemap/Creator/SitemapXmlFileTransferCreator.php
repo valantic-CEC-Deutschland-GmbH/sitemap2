@@ -65,7 +65,7 @@ class SitemapXmlFileTransferCreator
             $urlNode->appendChild($domtree->createElement(self::TAG_PRIORITY, '1.0'));
         }
 
-        return $this->createSitemapFileTransfer($filename, $domtree->saveXML(), $storeName);
+        return $this->createSitemapFileTransfer($filename, (string)$domtree->saveXML(), $storeName);
     }
 
     /**

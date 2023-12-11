@@ -152,7 +152,7 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
         $sitemapFileTransfer = new SitemapFileTransfer();
         $sitemapFileTransfer
             ->setName(SitemapConstants::SITEMAP_NAME . SitemapConstants::DOT_XML_EXTENSION)
-            ->setContent($domTree->saveXML());
+            ->setContent((string)$domTree->saveXML());
 
         return $sitemapFileTransfer;
     }

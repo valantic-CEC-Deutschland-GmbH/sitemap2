@@ -18,7 +18,7 @@ class SitemapRepository extends AbstractRepository implements SitemapRepositoryI
      * @param string $storeName
      * @param array<string> $names
      *
-     * @return array<\Generated\Shared\Transfer\SitemapFileTransfer>
+     * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
      */
     public function findAllSitemapsByStoreNameExceptWithGivenNames(string $storeName, array $names): array
     {
@@ -27,9 +27,12 @@ class SitemapRepository extends AbstractRepository implements SitemapRepositoryI
             ->filterByStoreName($storeName)
             ->filterByName($names, Criteria::NOT_IN);
 
+        /** @var \Propel\Runtime\Collection\ObjectCollection $resultCollection */
+        $resultCollection = $query->find();
+
         return $this->getFactory()
             ->createSitemapMapper()
-            ->mapPyzSitemapCollectionToEntityTransfers($query->find());
+            ->mapPyzSitemapCollectionToEntityTransfers($resultCollection);
     }
 
     /**
