@@ -94,18 +94,31 @@ class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
 }
 ```
 
-5. Add cronjob in `jenkins.php`
+5. Add cronjobs in `jenkins.php` for each store
 
 ```php
 $jobs[] = [
-    'name' => 'generate-sitemap',
-    'command' => '$PHP_BIN vendor/bin/console sitemap:generate -vvv',
+    'name' => 'generate-sitemap-de',
+    'command' => 'APPLICATION_STORE=DE $PHP_BIN vendor/bin/console sitemap:generate -vvv',
     'schedule' => '0 0 1 1 *',
     'enable' => false,
     'run_on_non_production' => true,
     'stores' => $allStores,
 ];
+$jobs[] = [
+    'name' => 'generate-sitemap-at',
+    'command' => 'APPLICATION_STORE=AT $PHP_BIN vendor/bin/console sitemap:generate -vvv',
+    'schedule' => '0 0 1 1 *',
+    'enable' => false,
+    'run_on_non_production' => true,
+    'stores' => $allStores,
+];
+// add jobs for each store
 ```
+
+When executing sitemap command from console, make sure to use the following syntax, in order to have correct base URLs:
+
+`APPLICATION_STORE=AT docker/sdk cli console sitemap:generate -vvv`
 
 6. You can optionally add sitemap url limit per one XML file in `config_default`. The default is 100.
 
@@ -127,5 +140,5 @@ The index of sitemap is `/sitemap.xml`, so for example on demo shop that would b
 
 Each store has different sitemap, for example:
 
-http://yves.at.spryker.local/sitemap_category_at_1.xml -> AT store
-http://yves.de.spryker.local/sitemap_category_de_1.xml -> DE store
+http://yves.at.spryker.local/sitemap.xml -> AT store
+http://yves.de.spryker.local/sitemap.xml -> DE store

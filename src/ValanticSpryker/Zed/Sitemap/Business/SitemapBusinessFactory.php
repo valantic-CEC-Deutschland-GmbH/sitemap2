@@ -40,6 +40,7 @@ class SitemapBusinessFactory extends AbstractBusinessFactory
     {
         return new SitemapReader(
             $this->getRepository(),
+            $this->getStoreFacade(),
         );
     }
 

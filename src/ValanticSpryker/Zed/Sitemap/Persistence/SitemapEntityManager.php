@@ -24,10 +24,10 @@ class SitemapEntityManager extends AbstractEntityManager implements SitemapEntit
     {
         $sitemapEntity = $this->getFactory()->getPyzSitemapQuery()
             ->filterByName($sitemapFileTransfer->getName())
+            ->filterByStoreName($sitemapFileTransfer->getStoreName())
             ->findOneOrCreate();
 
         $sitemapEntity->setContent($sitemapFileTransfer->getContent() ?? '');
-        $sitemapEntity->setStoreName($sitemapFileTransfer->getStoreName());
         $sitemapEntity->setYvesBaseUrl($sitemapFileTransfer->getYvesBaseUrl());
         $sitemapEntity->save();
 

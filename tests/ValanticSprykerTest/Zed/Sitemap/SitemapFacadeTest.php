@@ -33,7 +33,7 @@ class SitemapFacadeTest extends Unit
     private const METHOD_FIND_ALL_SITEMAPS_BY_STORE_NAME_EXCEPT_WITH_GIVEN_NAMES = 'findAllSitemapsByStoreNameExceptWithGivenNames';
     private const METHOD_SAVE_SITEMAP_FILE = 'saveSitemapFile';
     private const METHOD_REMOVE_SITEMAP = 'removeSitemap';
-    private const METHOD_FIND_SITEMAP_BY_FILENAME = 'findSitemapByFilename';
+    private const METHOD_FIND_SITEMAP_BY_FILENAME_AND_STORE = 'findSitemapByFilenameAndStore';
     private const TEST_SITEMAP_XML = 'test_sitemap.xml';
     private const ENV_APPLICATION_STORE = 'APPLICATION_STORE';
     private const ID_SITEMAP_TO_REMOVE = 1;
@@ -56,6 +56,11 @@ class SitemapFacadeTest extends Unit
     private SitemapEntityManager $entityManagerMock;
 
     /**
+     * @var \Spryker\Zed\Store\Business\StoreFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private StoreFacadeInterface $storeFacadeMock;
+
+    /**
      * @return void
      */
     protected function _setUp(): void
@@ -64,6 +69,7 @@ class SitemapFacadeTest extends Unit
 
         $this->repositoryMock = $this->createMock(SitemapRepository::class);
         $this->entityManagerMock = $this->createMock(SitemapEntityManager::class);
+        $this->storeFacadeMock = $this->createStoreFacadeMock();
     }
 
     /**
@@ -88,6 +94,7 @@ class SitemapFacadeTest extends Unit
         $expectedXml = self::XML_EMPTY_SITEMAP;
 
         $expectedSitemapFileTransfer = (new SitemapFileTransfer())
+            ->setStoreName(self::STORE_NAME_DE)
             ->setContent($expectedXml)
             ->setName($this->retrieveSitemapName());
 
@@ -128,6 +135,7 @@ class SitemapFacadeTest extends Unit
             ->setYvesBaseUrl(SitemapHelperCreatorPlugin::TEST_BASE_URL);
         $expectedSitemapFileTransfer2 = (new SitemapFileTransfer())
             ->setContent($expectedXml2)
+            ->setStoreName(self::STORE_NAME_DE)
             ->setName($this->retrieveSitemapName());
 
         $this->entityManagerMock->expects($this->exactly(2))
@@ -162,6 +170,7 @@ class SitemapFacadeTest extends Unit
 
         $expectedSitemapFileTransfer = (new SitemapFileTransfer())
             ->setContent($expectedXml)
+            ->setStoreName(self::STORE_NAME_DE)
             ->setName($this->retrieveSitemapName());
         $sitemapFileTransferToRemove = clone $expectedSitemapFileTransfer;
         $sitemapFileTransferToRemove->setIdSitemap(self::ID_SITEMAP_TO_REMOVE);
@@ -194,7 +203,7 @@ class SitemapFacadeTest extends Unit
      */
     public function testFindSitemapByCorrectFilename(): void
     {
-        $this->tester->mockFactoryMethod(self::METHOD_CREATE_SITEMAP_READER, new SitemapReader($this->repositoryMock));
+        $this->tester->mockFactoryMethod(self::METHOD_CREATE_SITEMAP_READER, $this->createSitemapReader());
 
         $sut = $this->setFacadeToSut();
 
@@ -205,8 +214,8 @@ class SitemapFacadeTest extends Unit
             ->setFilename($expectedSitemapFileTransfer->getName());
 
         $this->repositoryMock->expects($this->once())
-            ->method(self::METHOD_FIND_SITEMAP_BY_FILENAME)
-            ->with($sitemapRequestTransfer)
+            ->method(self::METHOD_FIND_SITEMAP_BY_FILENAME_AND_STORE)
+            ->with($sitemapRequestTransfer, self::STORE_NAME_DE)
             ->willReturn($expectedSitemapFileTransfer);
 
         $sitemapResponseTransfer = $sut->findSitemapByFilename($sitemapRequestTransfer);
@@ -221,7 +230,7 @@ class SitemapFacadeTest extends Unit
      */
     public function testFindSitemapByNonExistingFilename(): void
     {
-        $this->tester->mockFactoryMethod(self::METHOD_CREATE_SITEMAP_READER, new SitemapReader($this->repositoryMock));
+        $this->tester->mockFactoryMethod(self::METHOD_CREATE_SITEMAP_READER, $this->createSitemapReader());
 
         $sut = $this->setFacadeToSut();
 
@@ -229,8 +238,8 @@ class SitemapFacadeTest extends Unit
             ->setFilename(self::TEST_SITEMAP_XML);
 
         $this->repositoryMock->expects($this->once())
-            ->method(self::METHOD_FIND_SITEMAP_BY_FILENAME)
-            ->with($sitemapRequestTransfer)
+            ->method(self::METHOD_FIND_SITEMAP_BY_FILENAME_AND_STORE)
+            ->with($sitemapRequestTransfer, self::STORE_NAME_DE)
             ->willReturn(null);
 
         $sitemapResponseTransfer = $sut->findSitemapByFilename($sitemapRequestTransfer);
@@ -258,7 +267,7 @@ class SitemapFacadeTest extends Unit
         $factory = $this->tester->getFactory();
 
         return new SitemapCreateSupervisor(
-            $this->createStoreFacadeMock(),
+            $this->storeFacadeMock,
             $sitemapCreators,
             $this->entityManagerMock,
             $this->repositoryMock,
@@ -304,5 +313,13 @@ class SitemapFacadeTest extends Unit
         $sut->setRepository($this->repositoryMock);
 
         return $sut;
+    }
+
+    /**
+     * @return \ValanticSpryker\Zed\Sitemap\Business\Model\Reader\SitemapReader
+     */
+    private function createSitemapReader(): SitemapReader
+    {
+        return new SitemapReader($this->repositoryMock, $this->storeFacadeMock);
     }
 }
