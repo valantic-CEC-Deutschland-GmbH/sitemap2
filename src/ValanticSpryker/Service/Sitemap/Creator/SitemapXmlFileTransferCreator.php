@@ -6,6 +6,7 @@ namespace ValanticSpryker\Service\Sitemap\Creator;
 
 use DateTime;
 use DOMDocument;
+use DOMNode;
 use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapUrlTransfer;
 use League\Uri\Uri;
@@ -48,26 +49,20 @@ class SitemapXmlFileTransferCreator
         }
 
         $filename = $this->createSitemapPaginationFileName($storeName, $fileType, $page);
-        $domtree = new DOMDocument('1.0', 'UTF-8');
+        $domTree = new DOMDocument('1.0', 'UTF-8');
 
-        $domtree->preserveWhiteSpace = false;
-        $domtree->formatOutput = true;
+        $domTree->preserveWhiteSpace = false;
+        $domTree->formatOutput = true;
 
-        $urlSet = $domtree->createElementNS(SitemapConstants::SITEMAP_NAMESPACE, 'urlset');
-        $urlSet = $domtree->appendChild($urlSet);
+        $urlSet = $domTree->createElementNS(SitemapConstants::SITEMAP_NAMESPACE, 'urlset');
+        $urlSet = $domTree->appendChild($urlSet);
 
         /** @var \Generated\Shared\Transfer\SitemapUrlTransfer $url */
         foreach ($urlList as $url) {
-            $urlNode = $domtree->createElement(self::TAG_URL);
-            $urlNode = $urlSet->appendChild($urlNode);
-            $urlNode->appendChild($domtree->createElement(self::TAG_LOC, $this->prepareUrl($url)));
-            if ($url->getUpdatedAt()) {
-                $urlNode->appendChild($domtree->createElement(self::TAG_LAST_MOD, $this->updateToCorrectDateFormat($url->getUpdatedAt())));
-            }
-            $urlNode->appendChild($domtree->createElement(self::TAG_PRIORITY, '1.0'));
+            $this->createUrlNode($domTree, $urlSet, $url);
         }
 
-        return $this->createSitemapFileTransfer($filename, (string)$domtree->saveXML(), $storeName);
+        return $this->createSitemapFileTransfer($filename, (string)$domTree->saveXML(), $storeName);
     }
 
     /**
@@ -106,6 +101,26 @@ class SitemapXmlFileTransferCreator
             $pageNumber,
             SitemapConstants::DOT_XML_EXTENSION,
         );
+    }
+
+    /**
+     * @param \DOMDocument $domTree
+     * @param \DOMNode $urlSet
+     * @param \Generated\Shared\Transfer\SitemapUrlTransfer $url
+     *
+     * @return void
+     */
+    protected function createUrlNode(DOMDocument $domTree, DOMNode $urlSet, SitemapUrlTransfer $url): void
+    {
+        $urlNode = $domTree->createElement(self::TAG_URL);
+        $urlNode = $urlSet->appendChild($urlNode);
+        $urlNode->appendChild($domTree->createElement(self::TAG_LOC, $this->prepareUrl($url)));
+
+        if ($url->getUpdatedAt()) {
+            $urlNode->appendChild($domTree->createElement(self::TAG_LAST_MOD, $this->updateToCorrectDateFormat($url->getUpdatedAt())));
+        }
+
+        $urlNode->appendChild($domTree->createElement(self::TAG_PRIORITY, '1.0'));
     }
 
     /**

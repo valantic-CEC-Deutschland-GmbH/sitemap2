@@ -50,9 +50,7 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
 
     /**
      * Takes into consideration the following paths:
-     * - sitemap_products_{storeName}_{number}.xml
-     * - sitemap_categories_{storeName}_{number}.xml
-     * - sitemap_cms_{storeName}_{number}.xml
+     * - sitemap_{resourcePattern}_{storeName}_{number}.xml
      * - sitemap_{number}.xml
      * - sitemap.xml
      *
