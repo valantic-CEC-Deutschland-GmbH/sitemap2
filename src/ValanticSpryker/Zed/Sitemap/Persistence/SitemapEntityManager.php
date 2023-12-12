@@ -26,7 +26,7 @@ class SitemapEntityManager extends AbstractEntityManager implements SitemapEntit
             ->filterByName($sitemapFileTransfer->getName())
             ->findOneOrCreate();
 
-        $sitemapEntity->setContent($sitemapFileTransfer->getContent());
+        $sitemapEntity->setContent($sitemapFileTransfer->getContent() ?? '');
         $sitemapEntity->setStoreName($sitemapFileTransfer->getStoreName());
         $sitemapEntity->setYvesBaseUrl($sitemapFileTransfer->getYvesBaseUrl());
         $sitemapEntity->save();

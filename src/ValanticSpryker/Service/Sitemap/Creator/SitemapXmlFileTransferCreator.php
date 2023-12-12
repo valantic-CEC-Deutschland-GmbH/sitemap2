@@ -61,7 +61,9 @@ class SitemapXmlFileTransferCreator
             $urlNode = $domtree->createElement(self::TAG_URL);
             $urlNode = $urlSet->appendChild($urlNode);
             $urlNode->appendChild($domtree->createElement(self::TAG_LOC, $this->prepareUrl($url)));
-            $urlNode->appendChild($domtree->createElement(self::TAG_LAST_MOD, $this->updateToCorrectDateFormat($url->getUpdatedAt())));
+            if ($url->getUpdatedAt()) {
+                $urlNode->appendChild($domtree->createElement(self::TAG_LAST_MOD, $this->updateToCorrectDateFormat($url->getUpdatedAt())));
+            }
             $urlNode->appendChild($domtree->createElement(self::TAG_PRIORITY, '1.0'));
         }
 

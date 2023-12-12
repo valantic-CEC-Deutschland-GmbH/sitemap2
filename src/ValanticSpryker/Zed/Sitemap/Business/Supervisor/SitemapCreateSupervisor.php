@@ -77,7 +77,7 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
     }
 
     /**
-     * @param array $sitemapList
+     * @param array<\Generated\Shared\Transfer\SitemapFileTransfer> $sitemapList
      *
      * @return void
      */
@@ -98,6 +98,10 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
         $savedSitemapNames = [];
 
         foreach ($sitemapList as $sitemapFileTransfer) {
+            if (!$sitemapFileTransfer->getName()) {
+                continue;
+            }
+
             $savedSitemapNames[] = $sitemapFileTransfer->getName();
         }
 
@@ -105,6 +109,10 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
         $sitemapsToRemove = $this->repository->findAllSitemapsByStoreNameExceptWithGivenNames($storeName, $savedSitemapNames);
 
         foreach ($sitemapsToRemove as $sitemapToRemove) {
+            if (!$sitemapToRemove->getIdSitemap()) {
+                return;
+            }
+
             $this->entityManager->removeSitemap($sitemapToRemove->getIdSitemap());
         }
     }

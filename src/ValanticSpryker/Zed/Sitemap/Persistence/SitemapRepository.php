@@ -15,17 +15,20 @@ use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 class SitemapRepository extends AbstractRepository implements SitemapRepositoryInterface
 {
     /**
-     * @param string $storeName
+     * @param string|null $storeName
      * @param array<string> $names
      *
      * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
      */
-    public function findAllSitemapsByStoreNameExceptWithGivenNames(string $storeName, array $names): array
+    public function findAllSitemapsByStoreNameExceptWithGivenNames(?string $storeName, array $names): array
     {
         $query = $this->getFactory()
             ->getPyzSitemapQuery()
-            ->filterByStoreName($storeName)
             ->filterByName($names, Criteria::NOT_IN);
+
+        if ($storeName) {
+            $query->filterByStoreName($storeName);
+        }
 
         /** @var \Propel\Runtime\Collection\ObjectCollection $resultCollection */
         $resultCollection = $query->find();

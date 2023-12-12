@@ -37,7 +37,10 @@ class IndexController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $response = new Response($sitemapResponseTransfer->getSitemapFile()->getContent());
+        $content = $sitemapResponseTransfer->getSitemapFile()
+            ? $sitemapResponseTransfer->getSitemapFile()->getContent()
+            : null;
+        $response = new Response($content);
         $response->headers->set('Content-Type', 'application/xml');
 
         return $response;
