@@ -6,25 +6,18 @@ namespace ValanticSpryker\Zed\Sitemap\Business\Model\Reader;
 
 use Generated\Shared\Transfer\SitemapRequestTransfer;
 use Generated\Shared\Transfer\SitemapResponseTransfer;
-use Spryker\Zed\Store\Business\StoreFacadeInterface;
 use ValanticSpryker\Zed\Sitemap\Persistence\SitemapRepositoryInterface;
 
 class SitemapReader implements SitemapReaderInterface
 {
     protected SitemapRepositoryInterface $repository;
 
-    protected StoreFacadeInterface $storeFacade;
-
     /**
      * @param \ValanticSpryker\Zed\Sitemap\Persistence\SitemapRepositoryInterface $repository
-     * @param \Spryker\Zed\Store\Business\StoreFacadeInterface $storeFacade
      */
-    public function __construct(
-        SitemapRepositoryInterface $repository,
-        StoreFacadeInterface $storeFacade
-    ) {
+    public function __construct(SitemapRepositoryInterface $repository)
+    {
         $this->repository = $repository;
-        $this->storeFacade = $storeFacade;
     }
 
     /**
@@ -34,8 +27,7 @@ class SitemapReader implements SitemapReaderInterface
      */
     public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): SitemapResponseTransfer
     {
-        $storeName = $this->storeFacade->getCurrentStore()->getName();
-        $sitemapFileTransfer = $this->repository->findSitemapByFilenameAndStore($sitemapRequestTransfer, $storeName);
+        $sitemapFileTransfer = $this->repository->findSitemapByFilename($sitemapRequestTransfer);
 
         return (new SitemapResponseTransfer())
             ->setIsSuccessful($sitemapFileTransfer !== null)

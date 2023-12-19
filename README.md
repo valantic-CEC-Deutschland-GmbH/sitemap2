@@ -138,7 +138,18 @@ $config[SitemapConstants::SITEMAP_URL_LIMIT] = 50000;
 
 The index of sitemap is `/sitemap.xml`, so for example on demo shop that would be http://yves.de.spryker.local/sitemap.xml
 
-Each store has different sitemap, for example:
+In multi-store context, URLs of all stores are included in the same sitemap index file.
+Sitemap index file structure example when using abstract product connector:
 
-http://yves.at.spryker.local/sitemap.xml -> AT store
-http://yves.de.spryker.local/sitemap.xml -> DE store
+```xml
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <sitemap>
+        <loc>http://yves.at.spryker.local/sitemap_abstract_product_at_1.xml</loc> # AT store URLs
+    </sitemap>
+    <sitemap>
+        <loc>http://yves.de.spryker.local/sitemap_abstract_product_de_1.xml</loc> # DE store URLs
+    </sitemap>
+</sitemapindex>
+```
+
+However, if your stores are configured to use different databases, there will be separate sitemap index files for each different database

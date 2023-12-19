@@ -16,7 +16,6 @@
 
         <unique name="pyz_sitemap_unique_key">
             <unique-column name="name"/>
-            <unique-column name="store_name"/>
         </unique>
 
         <id-method-parameter value="pyz_sitemap_pk_seq"/>

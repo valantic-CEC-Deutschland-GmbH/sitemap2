@@ -116,9 +116,8 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
      */
     protected function createSitemapIndex(): void
     {
-        $storeName = $this->storeFacade->getCurrentStore()->getName();
         $sitemapList = $this->repository->findAllSitemapsByStoreNameExceptWithGivenNames(
-            $storeName,
+            null,
             self::EXCLUDED_SITEMAP_FILE_NAMES,
         );
 
@@ -141,22 +140,20 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
             );
         }
 
-        $sitemapFileTransfer = $this->createSitemapFileTransfer($domTree, $storeName);
+        $sitemapFileTransfer = $this->createSitemapFileTransfer($domTree);
         $this->entityManager->saveSitemapFile($sitemapFileTransfer);
     }
 
     /**
      * @param \DOMDocument $domTree
-     * @param string|null $storeName
      *
      * @return \Generated\Shared\Transfer\SitemapFileTransfer
      */
-    protected function createSitemapFileTransfer(DOMDocument $domTree, ?string $storeName): SitemapFileTransfer
+    protected function createSitemapFileTransfer(DOMDocument $domTree): SitemapFileTransfer
     {
         $sitemapFileTransfer = new SitemapFileTransfer();
         $sitemapFileTransfer
             ->setName(SitemapConstants::SITEMAP_NAME . SitemapConstants::DOT_XML_EXTENSION)
-            ->setStoreName($storeName)
             ->setContent((string)$domTree->saveXML());
 
         return $sitemapFileTransfer;

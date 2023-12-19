@@ -40,19 +40,14 @@ class SitemapRepository extends AbstractRepository implements SitemapRepositoryI
 
     /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer
-     * @param string|null $storeName
      *
      * @return \Generated\Shared\Transfer\SitemapFileTransfer|null
      */
-    public function findSitemapByFilenameAndStore(SitemapRequestTransfer $sitemapRequestTransfer, ?string $storeName): ?SitemapFileTransfer
+    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): ?SitemapFileTransfer
     {
         $sitemapQuery = $this->getFactory()
             ->getPyzSitemapQuery()
             ->filterByName($sitemapRequestTransfer->getFilename());
-
-        if ($storeName) {
-            $sitemapQuery->filterByStoreName($storeName);
-        }
 
         $sitemapEntity = $sitemapQuery->findOne();
 

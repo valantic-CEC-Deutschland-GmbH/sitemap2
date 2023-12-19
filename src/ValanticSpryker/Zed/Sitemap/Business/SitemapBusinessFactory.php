@@ -37,10 +37,7 @@ class SitemapBusinessFactory extends AbstractBusinessFactory
      */
     public function createSitemapReader(): SitemapReaderInterface
     {
-        return new SitemapReader(
-            $this->getRepository(),
-            $this->getStoreFacade(),
-        );
+        return new SitemapReader($this->getRepository());
     }
 
     /**
