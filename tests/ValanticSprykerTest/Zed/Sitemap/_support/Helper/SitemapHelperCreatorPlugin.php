@@ -23,7 +23,7 @@ class SitemapHelperCreatorPlugin implements SitemapCreatorPluginInterface
     public const TEST_NAME = 'test-name';
 
     /**
-     * @return \Generated\Shared\Transfer\SitemapFileTransfer[]
+     * @return array<\Generated\Shared\Transfer\SitemapFileTransfer>
      */
     public function createSitemapXml(): array
     {

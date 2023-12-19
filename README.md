@@ -120,10 +120,10 @@ When executing sitemap command from console, make sure to use the following synt
 
 `APPLICATION_STORE=AT docker/sdk cli console sitemap:generate -vvv`
 
-6. You can optionally add sitemap url limit per one XML file in `config_default`. The default is 100.
+6. You can optionally add sitemap url limit per one XML file in `config_default`. The default is 50000.
 
 ```php
-$config[SitemapConstants::SITEMAP_URL_LIMIT] = 50;
+$config[SitemapConstants::SITEMAP_URL_LIMIT] = 50000;
 ```
 
 7. Register connector modules to see resources such as category, product abstract urls. Information is provided in each connector module:

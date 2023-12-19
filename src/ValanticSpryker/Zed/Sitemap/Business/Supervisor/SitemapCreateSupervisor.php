@@ -11,7 +11,6 @@ use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 use ValanticSpryker\Zed\Sitemap\Dependency\Plugin\SitemapCreatorPluginInterface;
 use ValanticSpryker\Zed\Sitemap\Persistence\SitemapEntityManagerInterface;
 use ValanticSpryker\Zed\Sitemap\Persistence\SitemapRepositoryInterface;
-use ValanticSpryker\Zed\Sitemap\SitemapConfig;
 
 class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
 {
@@ -30,27 +29,22 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
 
     protected SitemapRepositoryInterface $repository;
 
-    protected SitemapConfig $config;
-
     /**
      * @param \Spryker\Zed\Store\Business\StoreFacadeInterface $storeFacade
      * @param array<\ValanticSpryker\Zed\Sitemap\Dependency\Plugin\SitemapCreatorPluginInterface> $sitemapCreatorPlugins
      * @param \ValanticSpryker\Zed\Sitemap\Persistence\SitemapEntityManagerInterface $entityManager
      * @param \ValanticSpryker\Zed\Sitemap\Persistence\SitemapRepositoryInterface $repository
-     * @param \ValanticSpryker\Zed\Sitemap\SitemapConfig $config
      */
     public function __construct(
         StoreFacadeInterface $storeFacade,
         array $sitemapCreatorPlugins,
         SitemapEntityManagerInterface $entityManager,
-        SitemapRepositoryInterface $repository,
-        SitemapConfig $config
+        SitemapRepositoryInterface $repository
     ) {
         $this->storeFacade = $storeFacade;
         $this->sitemapCreatorPlugins = $sitemapCreatorPlugins;
         $this->entityManager = $entityManager;
         $this->repository = $repository;
-        $this->config = $config;
     }
 
     /**

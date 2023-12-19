@@ -11,11 +11,11 @@ interface SitemapRepositoryInterface
 {
     /**
      * @param string|null $storeName
-     * @param array<string> $names
+     * @param array<string> $namesExcluded
      *
      * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
      */
-    public function findAllSitemapsByStoreNameExceptWithGivenNames(?string $storeName, array $names): array;
+    public function findAllSitemapsByStoreNameExceptWithGivenNames(?string $storeName, array $namesExcluded): array;
 
     /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer

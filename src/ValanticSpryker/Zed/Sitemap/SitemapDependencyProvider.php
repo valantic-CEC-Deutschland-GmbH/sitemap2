@@ -6,6 +6,8 @@ namespace ValanticSpryker\Zed\Sitemap;
 
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
+use Spryker\Zed\Locale\Business\LocaleFacadeInterface;
+use Spryker\Zed\Store\Business\StoreFacadeInterface;
 
 class SitemapDependencyProvider extends AbstractBundleDependencyProvider
 {
@@ -56,7 +58,9 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addFacadeLocale(Container $container): void
     {
-        $container->set(self::FACADE_LOCALE, $container->getLocator()->locale()->facade());
+        $container->set(self::FACADE_LOCALE, static function (Container $container): LocaleFacadeInterface {
+            return $container->getLocator()->locale()->facade();
+        });
     }
 
     /**
@@ -66,7 +70,9 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addFacadeStore(Container $container): void
     {
-        $container->set(self::FACADE_STORE, $container->getLocator()->store()->facade());
+        $container->set(self::FACADE_STORE, static function (Container $container): StoreFacadeInterface {
+            return $container->getLocator()->store()->facade();
+        });
     }
 
     /**

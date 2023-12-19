@@ -8,7 +8,6 @@ use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 use ValanticSpryker\Client\Sitemap\SitemapClientInterface;
 use ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface;
-use ValanticSpryker\Yves\Sitemap\Plugin\Resolver\SitemapDatabaseResolverPlugin;
 
 class SitemapFactory extends AbstractFactory
 {
@@ -33,7 +32,7 @@ class SitemapFactory extends AbstractFactory
      */
     public function getAvailableResourceTypes(): array
     {
-        return $this->getProvidedDependency(SitemapDependencyProvider::RESOURCES_SITEMAP);
+        return $this->getProvidedDependency(SitemapDependencyProvider::AVAILABLE_ROUTE_RESOURCES);
     }
 
     /**
@@ -41,20 +40,6 @@ class SitemapFactory extends AbstractFactory
      */
     public function getSitemapResolverPlugin(): SitemapResolverPluginInterface
     {
-        $resolverDependency = $this->getProvidedDependency(SitemapDependencyProvider::RESOLVER_SITEMAP);
-
-        if ($resolverDependency instanceof SitemapResolverPluginInterface) {
-            return $resolverDependency;
-        }
-
-        return $this->createSitemapDatabaseResolver();
-    }
-
-    /**
-     * @return \ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface
-     */
-    private function createSitemapDatabaseResolver(): SitemapResolverPluginInterface
-    {
-        return new SitemapDatabaseResolverPlugin();
+        return $this->getProvidedDependency(SitemapDependencyProvider::CLIENT_RESOLVER_PLUGIN);
     }
 }

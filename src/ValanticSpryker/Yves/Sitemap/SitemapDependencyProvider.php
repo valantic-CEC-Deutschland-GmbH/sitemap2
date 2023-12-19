@@ -9,6 +9,7 @@ use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use ValanticSpryker\Client\Sitemap\SitemapClientInterface;
 use ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface;
+use ValanticSpryker\Yves\Sitemap\Plugin\Resolver\SitemapDatabaseResolverPlugin;
 
 class SitemapDependencyProvider extends AbstractBundleDependencyProvider
 {
@@ -25,12 +26,12 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     /**
      * @var string
      */
-    public const RESOURCES_SITEMAP = 'RESOURCES_SITEMAP';
+    public const AVAILABLE_ROUTE_RESOURCES = 'AVAILABLE_ROUTE_RESOURCES';
 
     /**
      * @var string
      */
-    public const RESOLVER_SITEMAP = 'RESOLVER_SITEMAP';
+    public const CLIENT_RESOLVER_PLUGIN = 'CLIENT_RESOLVER_PLUGIN';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
@@ -54,17 +55,9 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addSitemapClient(Container $container): void
     {
-        $container->set(static::CLIENT_SITEMAP, $this->getSitemapClient($container));
-    }
-
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \ValanticSpryker\Client\Sitemap\SitemapClientInterface
-     */
-    protected function getSitemapClient(Container $container): SitemapClientInterface
-    {
-        return $container->getLocator()->sitemap()->client();
+        $container->set(static::CLIENT_SITEMAP, static function (Container $container): SitemapClientInterface {
+            return $container->getLocator()->sitemap()->client();
+        });
     }
 
     /**
@@ -74,17 +67,9 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addStoreClient(Container $container): void
     {
-        $container->set(static::CLIENT_STORE, $this->getStoreClient($container));
-    }
-
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Client\Store\StoreClientInterface
-     */
-    protected function getStoreClient(Container $container): StoreClientInterface
-    {
-        return $container->getLocator()->store()->client();
+        $container->set(static::CLIENT_STORE, static function (Container $container): StoreClientInterface {
+            return $container->getLocator()->store()->client();
+        });
     }
 
     /**
@@ -94,7 +79,7 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addAvailableSitemapRouteResources(Container $container): void
     {
-        $container->set(self::RESOURCES_SITEMAP, $this->getAvailableSitemapRouteResources());
+        $container->set(self::AVAILABLE_ROUTE_RESOURCES, $this->getAvailableSitemapRouteResources());
     }
 
     /**
@@ -104,15 +89,15 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addSitemapResolverPlugin(Container $container): void
     {
-        $container->set(self::RESOLVER_SITEMAP, $this->getCustomSitemapResolverPlugin());
+        $container->set(self::CLIENT_RESOLVER_PLUGIN, $this->getSitemapResolverPlugin());
     }
 
     /**
-     * @return \ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface|null
+     * @return \ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface
      */
-    protected function getCustomSitemapResolverPlugin(): ?SitemapResolverPluginInterface
+    protected function getSitemapResolverPlugin(): SitemapResolverPluginInterface
     {
-        return null; // include custom resolver plugin
+        return new SitemapDatabaseResolverPlugin(); // override with custom resolver plugin if needed
     }
 
     /**

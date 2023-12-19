@@ -263,15 +263,11 @@ class SitemapFacadeTest extends Unit
      */
     private function createSitemapCreatorSupervisor(array $sitemapCreators = []): SitemapCreateSupervisorInterface
     {
-        /** @var \ValanticSpryker\Zed\Sitemap\Business\SitemapBusinessFactory $factory */
-        $factory = $this->tester->getFactory();
-
         return new SitemapCreateSupervisor(
             $this->storeFacadeMock,
             $sitemapCreators,
             $this->entityManagerMock,
             $this->repositoryMock,
-            $factory->getConfig(),
         );
     }
 

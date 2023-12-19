@@ -29,7 +29,6 @@ class SitemapBusinessFactory extends AbstractBusinessFactory
             $this->getSitemapCreators(),
             $this->getEntityManager(),
             $this->getRepository(),
-            $this->getConfig(),
         );
     }
 
