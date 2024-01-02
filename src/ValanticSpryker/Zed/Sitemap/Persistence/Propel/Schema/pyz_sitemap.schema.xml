@@ -19,9 +19,5 @@
         </unique>
 
         <id-method-parameter value="pyz_sitemap_pk_seq"/>
-
-        <behavior name="event">
-            <parameter name="pyz_sitemap_all" column="*"/>
-        </behavior>
     </table>
 </database>
