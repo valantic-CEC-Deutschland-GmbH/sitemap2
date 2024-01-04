@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ValanticSpryker\Yves\Sitemap\Controller;
 
-use Generated\Shared\Transfer\SitemapTransfer;
-use Spryker\Shared\Kernel\Store;
+use Generated\Shared\Transfer\SitemapRequestTransfer;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,30 +26,24 @@ class IndexController extends AbstractController
     {
         $filename = $this->formatFilename($request->getPathInfo());
 
-        $sitemapTransfer = $this->createSitemapTransfer()
-            ->setFile($filename)
-            ->setLocale($this->getLocale());
+        $sitemapRequestTransfer = $this->createSitemapRequestTransfer()
+            ->setFilename($filename);
 
-        $sitemapContent = $this->getFactory()
-            ->getSitemapClient()
-            ->getSitemap($sitemapTransfer);
+        $sitemapResponseTransfer = $this->getFactory()
+            ->getSitemapResolverPlugin()
+            ->getSitemap($sitemapRequestTransfer);
 
-        if ($sitemapContent->getIsSuccess() === false) {
+        if (!$sitemapResponseTransfer->getIsSuccessful()) {
             throw new NotFoundHttpException();
         }
 
-        $response = new Response($sitemapContent->getUrls());
+        $content = $sitemapResponseTransfer->getSitemapFile()
+            ? $sitemapResponseTransfer->getSitemapFile()->getContent()
+            : null;
+        $response = new Response($content);
         $response->headers->set('Content-Type', 'application/xml');
 
         return $response;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getLocale(): string
-    {
-        return explode('_', (Store::getInstance())->getCurrentLocale())[0];
     }
 
     /**
@@ -64,10 +59,10 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @return \Generated\Shared\Transfer\SitemapTransfer
+     * @return \Generated\Shared\Transfer\SitemapRequestTransfer
      */
-    protected function createSitemapTransfer(): SitemapTransfer
+    protected function createSitemapRequestTransfer(): SitemapRequestTransfer
     {
-        return new SitemapTransfer();
+        return new SitemapRequestTransfer();
     }
 }

@@ -1,0 +1,43 @@
+namespace: ValanticSprykerTest\Zed\Sitemap
+
+paths:
+    tests: .
+    data: _data
+    support: _support
+    output: _output
+
+coverage:
+    enabled: true
+    show_uncovered: true
+    remote: false
+    include:
+        - '../../../../src/ValanticSpryker/Zed/*'
+    exclude:
+        - '../../../../src/ValanticSpryker/Zed/*Factory.php'
+        - '../../../../src/ValanticSpryker/Zed/*DependencyProvider.php'
+        - '../../../../src/ValanticSpryker/Zed/*Config.php'
+        - '../../../../src/ValanticSpryker/Zed/*EntityManager.php'
+        - '../../../../src/ValanticSpryker/Zed/*Repository.php'
+
+suites:
+    Business:
+        path: .
+        actor: SitemapTester
+        modules:
+            enabled:
+                - \SprykerTest\Shared\Testify\Helper\Environment:
+                    isolated: true
+                - \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                      projectNamespaces: [ 'ValanticSpryker' ]
+                - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
+                - \SprykerTest\Zed\Testify\Helper\Business\DependencyProviderHelper
+                - \FondOfCodeception\Module\Spryker
+                - \SprykerTest\Shared\Transfer\Helper\TransferGenerateHelper:
+                      isolated: true
+            config:
+                \FondOfCodeception\Module\Spryker:
+                    generate_transfer: true
+                    generate_map_classes: true
+                    generate_propel_classes: true
+                    generate_ide_auto_completion: true
+

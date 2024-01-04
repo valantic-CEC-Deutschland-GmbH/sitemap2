@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ValanticSpryker\Service\Sitemap;
 
@@ -9,7 +9,11 @@ use Generated\Shared\Transfer\SitemapFileTransfer;
 interface SitemapServiceInterface
 {
     /**
-     * @param array $urlList
+     * Creates sitemap xml file transfer
+     *
+     * @api
+     *
+     * @param array<\Generated\Shared\Transfer\SitemapUrlTransfer> $urlList
      * @param int $page
      * @param string $storeName
      * @param string $fileType

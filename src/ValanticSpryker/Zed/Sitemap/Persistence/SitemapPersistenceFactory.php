@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ValanticSpryker\Zed\Sitemap\Persistence;
 
 use Orm\Zed\Sitemap\Persistence\PyzSitemapQuery;
-use Orm\Zed\UrlStorage\Persistence\SpyUrlStorageQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
+use ValanticSpryker\Zed\Sitemap\Persistence\Mapper\SitemapMapper;
 
 /**
  * @method \ValanticSpryker\Zed\Sitemap\SitemapConfig getConfig()
@@ -16,18 +16,18 @@ use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
 class SitemapPersistenceFactory extends AbstractPersistenceFactory
 {
     /**
-     * @return \Orm\Zed\UrlStorage\Persistence\SpyUrlStorageQuery
-     */
-    public function getSpyUrlStorageQuery(): SpyUrlStorageQuery
-    {
-        return SpyUrlStorageQuery::create();
-    }
-
-    /**
      * @return \Orm\Zed\Sitemap\Persistence\PyzSitemapQuery
      */
     public function getPyzSitemapQuery(): PyzSitemapQuery
     {
         return PyzSitemapQuery::create();
+    }
+
+    /**
+     * @return \ValanticSpryker\Zed\Sitemap\Persistence\Mapper\SitemapMapper
+     */
+    public function createSitemapMapper(): SitemapMapper
+    {
+        return new SitemapMapper();
     }
 }

@@ -1,0 +1,4 @@
+parameters:
+    level: 8
+    ignoreErrors:
+        - '#.* on an unknown class Generated\\(Client|Glue|Service|Yves|Zed)\\Ide\\AutoCompletion.*#'

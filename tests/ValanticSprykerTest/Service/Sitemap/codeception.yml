@@ -1,0 +1,42 @@
+namespace: ValanticSprykerTest\Service\Sitemap
+
+paths:
+    tests: .
+    data: _data
+    support: _support
+    output: _output
+
+coverage:
+    enabled: true
+    show_uncovered: true
+    remote: false
+    include:
+        - '../../../../src/ValanticSpryker/Service/*'
+    exclude:
+        - '../../../../src/ValanticSpryker/Service/*Factory.php'
+        - '../../../../src/ValanticSpryker/Service/*DependencyProvider.php'
+        - '../../../../src/ValanticSpryker/Service/*Config.php'
+
+suites:
+    Service:
+        path: .
+        actor: SitemapServiceTester
+        modules:
+            enabled:
+                - \SprykerTest\Shared\Testify\Helper\Environment:
+                    isolated: true
+                - \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                      projectNamespaces: [ 'ValanticSpryker' ]
+                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
+                - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
+                - \SprykerTest\Zed\Testify\Helper\Business\DependencyProviderHelper
+                - \FondOfCodeception\Module\Spryker
+                - \SprykerTest\Shared\Transfer\Helper\TransferGenerateHelper:
+                      isolated: true
+            config:
+                \FondOfCodeception\Module\Spryker:
+                    generate_transfer: true
+                    generate_map_classes: true
+                    generate_propel_classes: true
+                    generate_ide_auto_completion: true
+

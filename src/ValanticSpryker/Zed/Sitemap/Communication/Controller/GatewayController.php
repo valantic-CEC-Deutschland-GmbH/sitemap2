@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace ValanticSpryker\Zed\Sitemap\Communication\Controller;
 
-use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapRequestTransfer;
+use Generated\Shared\Transfer\SitemapResponseTransfer;
 use Spryker\Zed\Kernel\Communication\Controller\AbstractGatewayController;
 
 /**
@@ -16,9 +16,9 @@ class GatewayController extends AbstractGatewayController
     /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\SitemapFileTransfer
+     * @return \Generated\Shared\Transfer\SitemapResponseTransfer
      */
-    public function findSitemapByFilenameAction(SitemapRequestTransfer $sitemapRequestTransfer): SitemapFileTransfer
+    public function findSitemapByFilenameAction(SitemapRequestTransfer $sitemapRequestTransfer): SitemapResponseTransfer
     {
         return $this->getFacade()
             ->findSitemapByFilename($sitemapRequestTransfer);

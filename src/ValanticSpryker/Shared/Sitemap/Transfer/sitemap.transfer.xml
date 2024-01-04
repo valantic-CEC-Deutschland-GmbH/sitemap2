@@ -7,14 +7,23 @@
         <property name="idSitemap" type="integer"/>
         <property name="name" type="string"/>
         <property name="content" type="string"/>
+        <property name="storeName" type="string"/>
+        <property name="yvesBaseUrl" type="string"/>
     </transfer>
 
     <transfer name="SitemapUrl">
         <property name="url" type="string"/>
+        <property name="resourceId" type="int"/>
+        <property name="resourceType" type="string"/>
         <property name="updatedAt" type="string"/>
     </transfer>
 
     <transfer name="SitemapRequest">
         <property name="filename" type="string"/>
+    </transfer>
+
+    <transfer name="SitemapResponse">
+        <property name="sitemapFile" type="SitemapFile"/>
+        <property name="isSuccessful" type="bool"/>
     </transfer>
 </transfers>

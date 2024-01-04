@@ -10,16 +10,17 @@ use Generated\Shared\Transfer\SitemapRequestTransfer;
 interface SitemapRepositoryInterface
 {
     /**
-     * @param array<string> $names
+     * @param string|null $storeName
+     * @param array<string> $namesExcluded
      *
      * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
      */
-    public function findAllSitemapsExceptWithGivenNames(array $names): array;
+    public function findAllSitemapsByStoreNameExceptWithGivenNames(?string $storeName, array $namesExcluded): array;
 
     /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\SitemapFileTransfer
+     * @return \Generated\Shared\Transfer\SitemapFileTransfer|null
      */
-    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): SitemapFileTransfer;
+    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): ?SitemapFileTransfer;
 }

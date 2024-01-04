@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ValanticSpryker\Client\Sitemap;
 
+use Generated\Shared\Transfer\SitemapRequestTransfer;
 use Generated\Shared\Transfer\SitemapResponseTransfer;
-use Generated\Shared\Transfer\SitemapTransfer;
 use Spryker\Client\Kernel\AbstractClient;
 use ValanticSpryker\Client\Sitemap\Zed\SitemapStubInterface;
 
@@ -13,11 +15,11 @@ use ValanticSpryker\Client\Sitemap\Zed\SitemapStubInterface;
 class SitemapClient extends AbstractClient implements SitemapClientInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\SitemapTransfer $sitemapTransfer
+     * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapTransfer
      *
      * @return \Generated\Shared\Transfer\SitemapResponseTransfer
      */
-    public function getSitemap(SitemapTransfer $sitemapTransfer): SitemapResponseTransfer
+    public function getSitemap(SitemapRequestTransfer $sitemapTransfer): SitemapResponseTransfer
     {
         return $this->getZedStub()->getSitemap($sitemapTransfer);
     }

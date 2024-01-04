@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace ValanticSpryker\Zed\Sitemap\Business\Model\Reader;
 
-use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapRequestTransfer;
+use Generated\Shared\Transfer\SitemapResponseTransfer;
 use ValanticSpryker\Zed\Sitemap\Persistence\SitemapRepositoryInterface;
 
 class SitemapReader implements SitemapReaderInterface
@@ -23,10 +23,14 @@ class SitemapReader implements SitemapReaderInterface
     /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\SitemapFileTransfer
+     * @return \Generated\Shared\Transfer\SitemapResponseTransfer
      */
-    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): SitemapFileTransfer
+    public function findSitemapByFilename(SitemapRequestTransfer $sitemapRequestTransfer): SitemapResponseTransfer
     {
-        return $this->repository->findSitemapByFilename($sitemapRequestTransfer);
+        $sitemapFileTransfer = $this->repository->findSitemapByFilename($sitemapRequestTransfer);
+
+        return (new SitemapResponseTransfer())
+            ->setIsSuccessful($sitemapFileTransfer !== null)
+            ->setSitemapFile($sitemapFileTransfer);
     }
 }

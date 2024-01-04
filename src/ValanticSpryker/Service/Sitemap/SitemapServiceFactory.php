@@ -7,6 +7,9 @@ namespace ValanticSpryker\Service\Sitemap;
 use Spryker\Service\Kernel\AbstractServiceFactory;
 use ValanticSpryker\Service\Sitemap\Creator\SitemapXmlFileTransferCreator;
 
+/**
+ * @method \ValanticSpryker\Service\Sitemap\SitemapConfig getConfig()
+ */
 class SitemapServiceFactory extends AbstractServiceFactory
 {
     /**
@@ -14,6 +17,8 @@ class SitemapServiceFactory extends AbstractServiceFactory
      */
     public function createSitemapXmlFileTransferCreator(): SitemapXmlFileTransferCreator
     {
-        return new SitemapXmlFileTransferCreator();
+        return new SitemapXmlFileTransferCreator(
+            $this->getConfig(),
+        );
     }
 }
