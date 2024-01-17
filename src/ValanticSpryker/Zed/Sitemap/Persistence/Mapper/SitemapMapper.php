@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace ValanticSpryker\Zed\Sitemap\Persistence\Mapper;
 
-use Generated\Shared\Transfer\PyzSitemapEntityTransfer;
 use Generated\Shared\Transfer\SitemapFileTransfer;
+use Generated\Shared\Transfer\ValSitemapEntityTransfer;
 use Propel\Runtime\Collection\ObjectCollection;
 
 class SitemapMapper
@@ -13,14 +13,14 @@ class SitemapMapper
     /**
      * @param \Propel\Runtime\Collection\ObjectCollection $sitemaps
      *
-     * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
+     * @return array<\Generated\Shared\Transfer\ValSitemapEntityTransfer>
      */
-    public function mapPyzSitemapCollectionToEntityTransfers(ObjectCollection $sitemaps): array
+    public function mapValSitemapCollectionToEntityTransfers(ObjectCollection $sitemaps): array
     {
         $entityTransfers = [];
 
         foreach ($sitemaps as $sitemap) {
-            $entityTransfers[] = (new PyzSitemapEntityTransfer())->fromArray($sitemap->toArray(), true);
+            $entityTransfers[] = (new ValSitemapEntityTransfer())->fromArray($sitemap->toArray(), true);
         }
 
         return $entityTransfers;
@@ -31,7 +31,7 @@ class SitemapMapper
      *
      * @return array<\Generated\Shared\Transfer\SitemapFileTransfer>
      */
-    public function mapPyzSitemapCollectionToSitemapFileTransfers(ObjectCollection $sitemaps): array
+    public function mapValSitemapCollectionToSitemapFileTransfers(ObjectCollection $sitemaps): array
     {
         $entityTransfers = [];
 

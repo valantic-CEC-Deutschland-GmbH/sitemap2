@@ -13,7 +13,7 @@ interface SitemapRepositoryInterface
      * @param string|null $storeName
      * @param array<string> $namesExcluded
      *
-     * @return array<\Generated\Shared\Transfer\PyzSitemapEntityTransfer>
+     * @return array<\Generated\Shared\Transfer\ValSitemapEntityTransfer>
      */
     public function findAllSitemapsByStoreNameExceptWithGivenNames(?string $storeName, array $namesExcluded): array;
 

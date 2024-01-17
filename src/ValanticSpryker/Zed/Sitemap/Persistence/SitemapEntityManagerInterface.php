@@ -4,17 +4,17 @@ declare(strict_types = 1);
 
 namespace ValanticSpryker\Zed\Sitemap\Persistence;
 
-use Generated\Shared\Transfer\PyzSitemapEntityTransfer;
 use Generated\Shared\Transfer\SitemapFileTransfer;
+use Generated\Shared\Transfer\ValSitemapEntityTransfer;
 
 interface SitemapEntityManagerInterface
 {
     /**
      * @param \Generated\Shared\Transfer\SitemapFileTransfer $sitemapFileTransfer
      *
-     * @return \Generated\Shared\Transfer\PyzSitemapEntityTransfer
+     * @return \Generated\Shared\Transfer\ValSitemapEntityTransfer
      */
-    public function saveSitemapFile(SitemapFileTransfer $sitemapFileTransfer): PyzSitemapEntityTransfer;
+    public function saveSitemapFile(SitemapFileTransfer $sitemapFileTransfer): ValSitemapEntityTransfer;
 
     /**
      * @param int $id
