@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace ValanticSpryker\Zed\Sitemap\Persistence;
 
-use Generated\Shared\Transfer\PyzSitemapEntityTransfer;
 use Generated\Shared\Transfer\SitemapFileTransfer;
+use Generated\Shared\Transfer\ValSitemapEntityTransfer;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
 /**
@@ -18,11 +18,11 @@ class SitemapEntityManager extends AbstractEntityManager implements SitemapEntit
     /**
      * @param \Generated\Shared\Transfer\SitemapFileTransfer $sitemapFileTransfer
      *
-     * @return \Generated\Shared\Transfer\PyzSitemapEntityTransfer
+     * @return \Generated\Shared\Transfer\ValSitemapEntityTransfer
      */
-    public function saveSitemapFile(SitemapFileTransfer $sitemapFileTransfer): PyzSitemapEntityTransfer
+    public function saveSitemapFile(SitemapFileTransfer $sitemapFileTransfer): ValSitemapEntityTransfer
     {
-        $sitemapEntity = $this->getFactory()->getPyzSitemapQuery()
+        $sitemapEntity = $this->getFactory()->getValSitemapQuery()
             ->filterByName($sitemapFileTransfer->getName())
             ->filterByStoreName($sitemapFileTransfer->getStoreName())
             ->findOneOrCreate();
@@ -31,7 +31,7 @@ class SitemapEntityManager extends AbstractEntityManager implements SitemapEntit
         $sitemapEntity->setYvesBaseUrl($sitemapFileTransfer->getYvesBaseUrl());
         $sitemapEntity->save();
 
-        $sitemapEntityTransfer = new PyzSitemapEntityTransfer();
+        $sitemapEntityTransfer = new ValSitemapEntityTransfer();
         $sitemapEntityTransfer->fromArray($sitemapEntity->toArray(), true);
 
         return $sitemapEntityTransfer;
@@ -44,7 +44,7 @@ class SitemapEntityManager extends AbstractEntityManager implements SitemapEntit
      */
     public function removeSitemap(int $id): void
     {
-        $sitemap = $this->getFactory()->getPyzSitemapQuery()->findOneByIdSitemap($id);
+        $sitemap = $this->getFactory()->getValSitemapQuery()->findOneByIdSitemap($id);
 
         if ($sitemap) {
             $sitemap->delete();

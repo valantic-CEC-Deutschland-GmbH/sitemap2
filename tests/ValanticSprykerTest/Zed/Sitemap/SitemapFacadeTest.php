@@ -6,10 +6,10 @@ namespace ValanticSprykerTest\Client\Currency\Plugin;
 
 use Codeception\Test\Unit;
 use Generated\Shared\DataBuilder\StoreBuilder;
-use Generated\Shared\Transfer\PyzSitemapEntityTransfer;
 use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapRequestTransfer;
 use Generated\Shared\Transfer\StoreTransfer;
+use Generated\Shared\Transfer\ValSitemapEntityTransfer;
 use Spryker\Zed\Store\Business\StoreFacade;
 use Spryker\Zed\Store\Business\StoreFacadeInterface;
 use ValanticSpryker\Shared\Sitemap\SitemapConstants;
@@ -100,7 +100,7 @@ class SitemapFacadeTest extends Unit
         $this->entityManagerMock->expects($this->once())
             ->method(self::METHOD_SAVE_SITEMAP_FILE)
             ->with($expectedSitemapFileTransfer)
-            ->willReturn(new PyzSitemapEntityTransfer());
+            ->willReturn(new ValSitemapEntityTransfer());
 
         $sut->createSitemapXml();
     }
@@ -139,7 +139,7 @@ class SitemapFacadeTest extends Unit
         $this->entityManagerMock->expects($this->exactly(2))
             ->method(self::METHOD_SAVE_SITEMAP_FILE)
             ->withConsecutive([$expectedSitemapFileTransfer], [$expectedSitemapFileTransfer2])
-            ->willReturnOnConsecutiveCalls(new PyzSitemapEntityTransfer(), new PyzSitemapEntityTransfer());
+            ->willReturnOnConsecutiveCalls(new ValSitemapEntityTransfer(), new ValSitemapEntityTransfer());
 
         $this->repositoryMock->expects($this->exactly(2))
             ->method(self::METHOD_FIND_ALL_SITEMAPS_BY_STORE_NAME_EXCEPT_WITH_GIVEN_NAMES)
@@ -186,7 +186,7 @@ class SitemapFacadeTest extends Unit
         $this->entityManagerMock->expects($this->once())
             ->method(self::METHOD_SAVE_SITEMAP_FILE)
             ->with($expectedSitemapFileTransfer)
-            ->willReturn(new PyzSitemapEntityTransfer());
+            ->willReturn(new ValSitemapEntityTransfer());
 
         $this->entityManagerMock->expects($this->once())
             ->method(self::METHOD_REMOVE_SITEMAP)

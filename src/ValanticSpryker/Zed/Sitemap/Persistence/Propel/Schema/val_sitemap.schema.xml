@@ -5,7 +5,7 @@
           namespace="Orm\Zed\Sitemap\Persistence"
           package="src.Orm.Zed.Sitemap.Persistence">
 
-    <table name="pyz_sitemap">
+    <table name="val_sitemap">
         <column name="id_sitemap" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
         <column name="name" type="VARCHAR" size="255" required="true"/>
         <column name="content" type="CLOB" required="true"/>
@@ -14,10 +14,10 @@
 
         <behavior name="timestampable"/>
 
-        <unique name="pyz_sitemap_unique_key">
+        <unique name="val_sitemap_unique_key">
             <unique-column name="name"/>
         </unique>
 
-        <id-method-parameter value="pyz_sitemap_pk_seq"/>
+        <id-method-parameter value="val_sitemap_pk_seq"/>
     </table>
 </database>
