@@ -13,7 +13,7 @@ interface SitemapServiceInterface
      *
      * @api
      *
-     * @param array<\Generated\Shared\Transfer\SitemapUrlTransfer> $urlList
+     * @param array<\Generated\Shared\Transfer\SitemapUrlNodeTransfer> $urlList
      * @param int $page
      * @param string $storeName
      * @param string $fileType

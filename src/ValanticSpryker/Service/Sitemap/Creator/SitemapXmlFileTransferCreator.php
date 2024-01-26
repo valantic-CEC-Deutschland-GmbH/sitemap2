@@ -6,15 +6,17 @@ namespace ValanticSpryker\Service\Sitemap\Creator;
 
 use DateTime;
 use DOMDocument;
+use DOMElement;
 use DOMNode;
 use Generated\Shared\Transfer\SitemapFileTransfer;
-use Generated\Shared\Transfer\SitemapUrlTransfer;
+use Generated\Shared\Transfer\SitemapUrlNodeTransfer;
 use League\Uri\Uri;
 use ValanticSpryker\Service\Sitemap\SitemapConfig;
 use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 
 class SitemapXmlFileTransferCreator
 {
+    protected const TAG_URL_SET = 'urlset';
     protected const TAG_URL = 'url';
     protected const TAG_LOC = 'loc';
     protected const TAG_LAST_MOD = 'lastmod';
@@ -31,7 +33,7 @@ class SitemapXmlFileTransferCreator
     }
 
     /**
-     * @param array<\Generated\Shared\Transfer\SitemapUrlTransfer> $urlList
+     * @param array<\Generated\Shared\Transfer\SitemapUrlNodeTransfer> $urlList
      * @param int $page
      * @param string $storeName
      * @param string $fileType
@@ -54,15 +56,38 @@ class SitemapXmlFileTransferCreator
         $domTree->preserveWhiteSpace = false;
         $domTree->formatOutput = true;
 
+        $urlSet = $this->createSitemapUrlSet($domTree, $urlList);
+        $domTree->appendChild($urlSet);
+
+
         $urlSet = $domTree->createElementNS(SitemapConstants::SITEMAP_NAMESPACE, 'urlset');
         $urlSet = $domTree->appendChild($urlSet);
 
-        /** @var \Generated\Shared\Transfer\SitemapUrlTransfer $url */
+        /** @var \Generated\Shared\Transfer\SitemapUrlNodeTransfer $url */
         foreach ($urlList as $url) {
             $this->createUrlNode($domTree, $urlSet, $url);
         }
 
         return $this->createSitemapFileTransfer($filename, (string)$domTree->saveXML(), $storeName);
+    }
+
+    /**
+     * @param \DOMDocument $domTree
+     * @param array<\Generated\Shared\Transfer\SitemapUrlNodeTransfer> $urlList
+     *
+     * @return \DOMElement
+     */
+    protected function createSitemapUrlSet(DOMDocument $domTree, array $urlList): DOMElement
+    {
+        $urlSet = $domTree->createElementNS(SitemapConstants::SITEMAP_NAMESPACE, self::TAG_URL_SET);
+
+        /** @var \Generated\Shared\Transfer\SitemapUrlNodeTransfer $url */
+        foreach ($urlList as $url) {
+            $urlNode = $this->createSitemapUrlNode($domTree, $url);
+            $urlSet->appendChild($urlNode);
+        }
+
+        return $urlSet;
     }
 
     /**
@@ -105,15 +130,14 @@ class SitemapXmlFileTransferCreator
 
     /**
      * @param \DOMDocument $domTree
-     * @param \DOMNode $urlSet
-     * @param \Generated\Shared\Transfer\SitemapUrlTransfer $url
+     * @param \Generated\Shared\Transfer\SitemapUrlNodeTransfer $url
      *
-     * @return void
+     * @return \DOMElement
      */
-    protected function createUrlNode(DOMDocument $domTree, DOMNode $urlSet, SitemapUrlTransfer $url): void
+    protected function createSitemapUrlNode(DOMDocument $domTree, SitemapUrlNodeTransfer $url): DOMElement
     {
         $urlNode = $domTree->createElement(self::TAG_URL);
-        $urlNode = $urlSet->appendChild($urlNode);
+
         $urlNode->appendChild($domTree->createElement(self::TAG_LOC, $this->prepareUrl($url)));
 
         if ($url->getUpdatedAt()) {
@@ -121,6 +145,8 @@ class SitemapXmlFileTransferCreator
         }
 
         $urlNode->appendChild($domTree->createElement(self::TAG_PRIORITY, '1.0'));
+
+        return $urlNode;
     }
 
     /**
@@ -134,11 +160,11 @@ class SitemapXmlFileTransferCreator
     }
 
     /**
-     * @param \Generated\Shared\Transfer\SitemapUrlTransfer $url
+     * @param \Generated\Shared\Transfer\SitemapUrlNodeTransfer $url
      *
      * @return string
      */
-    protected function prepareUrl(SitemapUrlTransfer $url): string
+    protected function prepareUrl(SitemapUrlNodeTransfer $url): string
     {
         $encodedUrl = Uri::createFromString($url->getUrl())->toString();
 

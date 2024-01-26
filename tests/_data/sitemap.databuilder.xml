@@ -11,7 +11,7 @@
         <property name="yvesBaseUrl" dataBuilderRule="url()"/>
     </transfer>
 
-    <transfer name="SitemapUrl">
+    <transfer name="SitemapUrlNode">
         <property name="url" dataBuilderRule="url()"/>
         <property name="updatedAt"  dataBuilderRule="date()"/>
     </transfer>
