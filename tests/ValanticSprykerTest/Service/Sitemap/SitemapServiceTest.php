@@ -6,8 +6,8 @@ namespace ValanticSprykerTest\Service\Sitemap;
 
 use Codeception\Test\Unit;
 use DateTime;
-use Generated\Shared\DataBuilder\SitemapUrlBuilder;
-use Generated\Shared\Transfer\SitemapUrlTransfer;
+use Generated\Shared\DataBuilder\SitemapUrlNodeBuilder;
+use Generated\Shared\Transfer\SitemapUrlNodeTransfer;
 use ValanticSpryker\Service\Sitemap\SitemapConfig;
 use ValanticSpryker\Service\Sitemap\SitemapService;
 use ValanticSpryker\Service\Sitemap\SitemapServiceInterface;
@@ -81,10 +81,10 @@ class SitemapServiceTest extends Unit
     }
 
     /**
-     * @return \Generated\Shared\Transfer\SitemapUrlTransfer
+     * @return \Generated\Shared\Transfer\SitemapUrlNodeTransfer
      */
-    private function generateSitemapUrl(): SitemapUrlTransfer
+    private function generateSitemapUrl(): SitemapUrlNodeTransfer
     {
-        return (new SitemapUrlBuilder())->build();
+        return (new SitemapUrlNodeBuilder())->build();
     }
 }
