@@ -7,7 +7,6 @@ namespace ValanticSpryker\Service\Sitemap\Creator;
 use DateTime;
 use DOMDocument;
 use DOMElement;
-use DOMNode;
 use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapUrlNodeTransfer;
 use League\Uri\Uri;
@@ -58,15 +57,6 @@ class SitemapXmlFileTransferCreator
 
         $urlSet = $this->createSitemapUrlSet($domTree, $urlList);
         $domTree->appendChild($urlSet);
-
-
-        $urlSet = $domTree->createElementNS(SitemapConstants::SITEMAP_NAMESPACE, 'urlset');
-        $urlSet = $domTree->appendChild($urlSet);
-
-        /** @var \Generated\Shared\Transfer\SitemapUrlNodeTransfer $url */
-        foreach ($urlList as $url) {
-            $this->createUrlNode($domTree, $urlSet, $url);
-        }
 
         return $this->createSitemapFileTransfer($filename, (string)$domTree->saveXML(), $storeName);
     }
