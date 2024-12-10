@@ -1,4 +1,5 @@
 parameters:
     level: 8
+    reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#.* on an unknown class Generated\\(Client|Glue|Service|Yves|Zed)\\Ide\\AutoCompletion.*#'

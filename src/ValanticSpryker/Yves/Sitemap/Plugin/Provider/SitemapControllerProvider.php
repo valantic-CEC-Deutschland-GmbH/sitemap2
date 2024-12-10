@@ -29,9 +29,7 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
      */
     public function addRoutes(RouteCollection $routeCollection): RouteCollection
     {
-        $routeCollection = $this->addSitemapRoutes($routeCollection);
-
-        return $routeCollection;
+        return $this->addSitemapRoutes($routeCollection);
     }
 
     /**
@@ -49,8 +47,7 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
     }
 
     /**
-     * Takes into consideration the following paths:
-     * - sitemap_{resourcePattern}_{storeName}_{number}.xml
+     * Takes into consideration the following paths (default):
      * - sitemap_{number}.xml
      * - sitemap.xml
      *
@@ -58,31 +55,14 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
      */
     protected function getSitemapPattern(): string
     {
-        $storeName = $this->getStoreName();
         $availableResourcesPattern = $this->getAvailableResourcesPattern();
+        $pattern = '(sitemap)' . $availableResourcesPattern . '(\_[0-9]+)?\.xml';
 
-        if ($storeName) {
-            $storeNamePattern = '(\_(' . $storeName . '))?';
-            $pattern = '(sitemap)' . $availableResourcesPattern . $storeNamePattern . '(\_[0-9]+)?\.xml';
-        } else {
-            $pattern = '(sitemap)' . $availableResourcesPattern . '(\_[0-9]+)?\.xml';
+        foreach ($this->getFactory()->getSitemapPatternResolverPlugins() as $sitemapPatternPlugin) {
+            $pattern = $sitemapPatternPlugin->resolvePattern($pattern, $availableResourcesPattern);
         }
 
         return $pattern;
-    }
-
-    /**
-     * @return string|null
-     */
-    protected function getStoreName(): ?string
-    {
-        $currentStore = $this->getFactory()
-            ->getStoreClient()
-            ->getCurrentStore();
-
-        $storeName = $currentStore->getName();
-
-        return $storeName ? strtolower($storeName) : null;
     }
 
     /**

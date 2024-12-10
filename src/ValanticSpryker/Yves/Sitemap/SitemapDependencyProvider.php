@@ -34,6 +34,11 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     public const CLIENT_RESOLVER_PLUGIN = 'CLIENT_RESOLVER_PLUGIN';
 
     /**
+     * @var string
+     */
+    public const PLUGINS_SITEMAP_PATTERN_RESOLVER = 'PLUGINS_SITEMAP_PATTERN_RESOLVER';
+
+    /**
      * @param \Spryker\Yves\Kernel\Container $container
      *
      * @return \Spryker\Yves\Kernel\Container
@@ -44,6 +49,7 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
         $this->addStoreClient($container);
         $this->addAvailableSitemapRouteResources($container);
         $this->addSitemapResolverPlugin($container);
+        $this->addSitemapPatternResolverPlugins($container);
 
         return $container;
     }
@@ -93,6 +99,16 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     }
 
     /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return void
+     */
+    protected function addSitemapPatternResolverPlugins(Container $container): void
+    {
+        $container->set(self::PLUGINS_SITEMAP_PATTERN_RESOLVER, $this->getSitemapPatternResolverPlugins());
+    }
+
+    /**
      * @return \ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface
      */
     protected function getSitemapResolverPlugin(): SitemapResolverPluginInterface
@@ -107,6 +123,16 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     {
         return [
             // Here register resource types from connector modules
+        ];
+    }
+
+    /**
+     * @return array<\ValanticSpryker\Yves\Sitemap\Dependency\Plugin\SitemapPatternResolverPluginInterface>
+     */
+    protected function getSitemapPatternResolverPlugins(): array
+    {
+        return [
+            // Register plugins here to get sitemap pattern
         ];
     }
 }

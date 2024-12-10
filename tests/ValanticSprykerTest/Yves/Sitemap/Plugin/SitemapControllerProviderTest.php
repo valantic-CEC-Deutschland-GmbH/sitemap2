@@ -9,6 +9,7 @@ use Generated\Shared\DataBuilder\StoreBuilder;
 use Spryker\Client\Store\StoreClient;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Yves\Router\Route\RouteCollection;
+use ValanticSpryker\Yves\Sitemap\Plugin\PatternResolver\StoreSitemapPatternResolverPlugin;
 use ValanticSpryker\Yves\Sitemap\Plugin\Provider\SitemapControllerProvider;
 use ValanticSpryker\Yves\Sitemap\SitemapDependencyProvider;
 use ValanticSprykerTest\Yves\Sitemap\SitemapYvesTester;
@@ -21,6 +22,7 @@ class SitemapControllerProviderTest extends Unit
     private const METHOD_GET_STORE_CLIENT = 'getStoreClient';
     private const METHOD_GET_CURRENT_STORE = 'getCurrentStore';
     private const METHOD_GET_AVAILABLE_RESOURCE_TYPES = 'getAvailableResourceTypes';
+    private const METHOD_GET_SITEMAP_PATTERN_RESOLVER_PLUGINS = 'getSitemapPatternResolverPlugins';
 
     protected SitemapYvesTester $tester;
 
@@ -57,12 +59,17 @@ class SitemapControllerProviderTest extends Unit
      */
     public function testProviderAddsCorrectRouteWhenStoreIsSet(): void
     {
-        $storeTransfer = (new StoreBuilder(['name' => getenv('APPLICATION_STORE')]))->build();
+        $storeTransfer = (new StoreBuilder(['name' => 'de']))->build();
         $this->storeClientMock->expects($this->once())
             ->method(self::METHOD_GET_CURRENT_STORE)
             ->willReturn($storeTransfer);
 
-        $this->mockFactory();
+        $this->tester->mockFactoryMethod(self::METHOD_GET_SITEMAP_PATTERN_RESOLVER_PLUGINS, [
+            new StoreSitemapPatternResolverPlugin(),
+        ]);
+        $factory = $this->tester->mockFactoryMethod(self::METHOD_GET_STORE_CLIENT, $this->storeClientMock);
+        $factory->setContainer($this->tester->getModuleContainer());
+        $this->sut->setFactory($factory);
 
         $routeCollection = new RouteCollection();
         $routeCollection = $this->sut->addRoutes($routeCollection);
@@ -75,14 +82,11 @@ class SitemapControllerProviderTest extends Unit
     /**
      * @return void
      */
-    public function testProviderAddsCorrectRouteWhenStoreNotSet(): void
+    public function testProviderAddsCorrectRouteWithoutPlugins(): void
     {
-        $storeTransfer = (new StoreBuilder(['name' => null]))->build();
-        $this->storeClientMock->expects($this->once())
-            ->method(self::METHOD_GET_CURRENT_STORE)
-            ->willReturn($storeTransfer);
-
-        $this->mockFactory();
+        $factory = $this->tester->mockFactoryMethod(self::METHOD_GET_SITEMAP_PATTERN_RESOLVER_PLUGINS, []);
+        $factory->setContainer($this->tester->getModuleContainer());
+        $this->sut->setFactory($factory);
 
         $routeCollection = new RouteCollection();
         $routeCollection = $this->sut->addRoutes($routeCollection);
@@ -90,15 +94,5 @@ class SitemapControllerProviderTest extends Unit
 
         $this->assertEquals(1, $routeCollection->count());
         $this->assertEquals('(sitemap)(\_abstract_product|\_categories|\_cms)?(\_[0-9]+)?\.xml', $route->getRequirements()['name']);
-    }
-
-    /**
-     * @return void
-     */
-    private function mockFactory(): void
-    {
-        $factory = $this->tester->mockFactoryMethod(self::METHOD_GET_STORE_CLIENT, $this->storeClientMock);
-        $factory->setContainer($this->tester->getModuleContainer());
-        $this->sut->setFactory($factory);
     }
 }

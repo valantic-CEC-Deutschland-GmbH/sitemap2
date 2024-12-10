@@ -4,14 +4,14 @@ declare(strict_types = 1);
 
 namespace ValanticSpryker\Zed\Sitemap\Communication\Console;
 
-use Spryker\Zed\Kernel\Communication\Console\Console;
+use Spryker\Zed\Kernel\Communication\Console\StoreAwareConsole;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @method \ValanticSpryker\Zed\Sitemap\Business\SitemapFacadeInterface getFacade()
  */
-class SitemapGenerateConsole extends Console
+class SitemapGenerateConsole extends StoreAwareConsole
 {
     /**
      * @var string
@@ -28,7 +28,8 @@ class SitemapGenerateConsole extends Console
      */
     protected function configure(): void
     {
-        $this->setName(self::COMMAND_NAME)
+        $this
+            ->setName(self::COMMAND_NAME)
             ->setDescription(self::DESCRIPTION);
     }
 
@@ -47,7 +48,15 @@ class SitemapGenerateConsole extends Console
             self::COMMAND_NAME,
         ));
 
-        $this->getFacade()->createSitemapXml();
+        $store = $this->getStore($input);
+
+        if (!$store) {
+            $output->writeln('Store is required');
+
+            return self::CODE_ERROR;
+        }
+
+        $this->getFacade()->createSitemapXml($store);
 
         return static::CODE_SUCCESS;
     }
