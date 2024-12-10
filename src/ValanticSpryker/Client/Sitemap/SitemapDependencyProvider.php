@@ -6,7 +6,7 @@ namespace ValanticSpryker\Client\Sitemap;
 
 use Spryker\Client\Kernel\AbstractDependencyProvider;
 use Spryker\Client\Kernel\Container;
-use Spryker\Client\ZedRequest\ZedRequestClient;
+use Spryker\Client\ZedRequest\ZedRequestClientInterface;
 
 class SitemapDependencyProvider extends AbstractDependencyProvider
 {
@@ -42,9 +42,9 @@ class SitemapDependencyProvider extends AbstractDependencyProvider
     /**
      * @param \Spryker\Client\Kernel\Container $container
      *
-     * @return \Spryker\Client\ZedRequest\ZedRequestClient
+     * @return \Spryker\Client\ZedRequest\ZedRequestClientInterface
      */
-    protected function getZedRequestClient(Container $container): ZedRequestClient
+    protected function getZedRequestClient(Container $container): ZedRequestClientInterface
     {
         return $container->getLocator()->zedRequest()->client();
     }

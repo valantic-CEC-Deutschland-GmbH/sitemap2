@@ -15,13 +15,15 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 class SitemapFacade extends AbstractFacade implements SitemapFacadeInterface
 {
     /**
+     * @param string $storeName
+     *
      * @return void
      */
-    public function createSitemapXml(): void
+    public function createSitemapXml(string $storeName): void
     {
         $this->getFactory()
             ->createSitemapCreatorSupervisor()
-            ->create();
+            ->create($storeName);
     }
 
     /**

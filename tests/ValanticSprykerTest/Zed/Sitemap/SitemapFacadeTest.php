@@ -5,13 +5,9 @@ declare(strict_types = 1);
 namespace ValanticSprykerTest\Client\Currency\Plugin;
 
 use Codeception\Test\Unit;
-use Generated\Shared\DataBuilder\StoreBuilder;
 use Generated\Shared\Transfer\SitemapFileTransfer;
 use Generated\Shared\Transfer\SitemapRequestTransfer;
-use Generated\Shared\Transfer\StoreTransfer;
 use Generated\Shared\Transfer\ValSitemapEntityTransfer;
-use Spryker\Zed\Store\Business\StoreFacade;
-use Spryker\Zed\Store\Business\StoreFacadeInterface;
 use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 use ValanticSpryker\Zed\Sitemap\Business\Model\Reader\SitemapReader;
 use ValanticSpryker\Zed\Sitemap\Business\SitemapFacadeInterface;
@@ -28,14 +24,12 @@ use ValanticSprykerTest\Zed\Sitemap\SitemapTester;
 class SitemapFacadeTest extends Unit
 {
     private const METHOD_CREATE_SITEMAP_CREATOR_SUPERVISOR = 'createSitemapCreatorSupervisor';
-    private const METHOD_GET_CURRENT_STORE = 'getCurrentStore';
     private const METHOD_CREATE_SITEMAP_READER = 'createSitemapReader';
     private const METHOD_FIND_ALL_SITEMAPS_BY_STORE_NAME_EXCEPT_WITH_GIVEN_NAMES = 'findAllSitemapsByStoreNameExceptWithGivenNames';
     private const METHOD_SAVE_SITEMAP_FILE = 'saveSitemapFile';
     private const METHOD_REMOVE_SITEMAP = 'removeSitemap';
     private const METHOD_FIND_SITEMAP_BY_FILENAME = 'findSitemapByFilename';
     private const TEST_SITEMAP_XML = 'test_sitemap.xml';
-    private const ENV_APPLICATION_STORE = 'APPLICATION_STORE';
     private const ID_SITEMAP_TO_REMOVE = 1;
     private const STORE_NAME_DE = 'DE';
     private const XML_EMPTY_SITEMAP = <<<EOD
@@ -56,11 +50,6 @@ class SitemapFacadeTest extends Unit
     private SitemapEntityManager $entityManagerMock;
 
     /**
-     * @var \Spryker\Zed\Store\Business\StoreFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private StoreFacadeInterface $storeFacadeMock;
-
-    /**
      * @return void
      */
     protected function _setUp(): void
@@ -69,7 +58,6 @@ class SitemapFacadeTest extends Unit
 
         $this->repositoryMock = $this->createMock(SitemapRepository::class);
         $this->entityManagerMock = $this->createMock(SitemapEntityManager::class);
-        $this->storeFacadeMock = $this->createStoreFacadeMock();
     }
 
     /**
@@ -102,7 +90,7 @@ class SitemapFacadeTest extends Unit
             ->with($expectedSitemapFileTransfer)
             ->willReturn(new ValSitemapEntityTransfer());
 
-        $sut->createSitemapXml();
+        $sut->createSitemapXml(self::STORE_NAME_DE);
     }
 
     /**
@@ -152,7 +140,7 @@ class SitemapFacadeTest extends Unit
                 [$expectedSitemapFileTransfer],
             );
 
-        $sut->createSitemapXml();
+        $sut->createSitemapXml(self::STORE_NAME_DE);
     }
 
     /**
@@ -192,7 +180,7 @@ class SitemapFacadeTest extends Unit
             ->method(self::METHOD_REMOVE_SITEMAP)
             ->with(self::ID_SITEMAP_TO_REMOVE);
 
-        $sut->createSitemapXml();
+        $sut->createSitemapXml(self::STORE_NAME_DE);
     }
 
     /**
@@ -261,7 +249,6 @@ class SitemapFacadeTest extends Unit
     private function createSitemapCreatorSupervisor(array $sitemapCreators = []): SitemapCreateSupervisorInterface
     {
         return new SitemapCreateSupervisor(
-            $this->storeFacadeMock,
             $sitemapCreators,
             $this->entityManagerMock,
             $this->repositoryMock,
@@ -274,26 +261,6 @@ class SitemapFacadeTest extends Unit
     private function retrieveSitemapName(): string
     {
         return SitemapConstants::SITEMAP_NAME . SitemapConstants::DOT_XML_EXTENSION;
-    }
-
-    /**
-     * @return \Spryker\Zed\Store\Business\StoreFacadeInterface|\ValanticSprykerTest\Client\Currency\Plugin\MockObject
-     */
-    private function createStoreFacadeMock(): StoreFacadeInterface
-    {
-        $storeFacadeMock = $this->createMock(StoreFacade::class);
-        $storeFacadeMock->method(self::METHOD_GET_CURRENT_STORE)
-            ->willReturn($this->getCurrentStoreTransfer());
-
-        return $storeFacadeMock;
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\StoreTransfer
-     */
-    private function getCurrentStoreTransfer(): StoreTransfer
-    {
-        return (new StoreBuilder(['name' => getenv(self::ENV_APPLICATION_STORE)]))->build();
     }
 
     /**

@@ -156,7 +156,7 @@ class SitemapXmlFileTransferCreator
      */
     protected function prepareUrl(SitemapUrlNodeTransfer $url): string
     {
-        $encodedUrl = Uri::createFromString($url->getUrl())->toString();
+        $encodedUrl = Uri::new($url->getUrl() ?? '')->toString();
 
         return htmlspecialchars($encodedUrl);
     }

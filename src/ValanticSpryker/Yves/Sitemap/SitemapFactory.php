@@ -42,4 +42,12 @@ class SitemapFactory extends AbstractFactory
     {
         return $this->getProvidedDependency(SitemapDependencyProvider::CLIENT_RESOLVER_PLUGIN);
     }
+
+    /**
+     * @return array<\ValanticSpryker\Yves\Sitemap\Dependency\Plugin\SitemapPatternResolverPluginInterface>
+     */
+    public function getSitemapPatternResolverPlugins(): array
+    {
+        return $this->getProvidedDependency(SitemapDependencyProvider::PLUGINS_SITEMAP_PATTERN_RESOLVER);
+    }
 }
