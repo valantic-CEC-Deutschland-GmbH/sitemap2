@@ -106,13 +106,16 @@ When executing sitemap command from console, make sure to use the following synt
 $config[SitemapConstants::SITEMAP_URL_LIMIT] = 50000;
 ```
 
-7. Register connector modules to see resources such as category, product abstract urls. Information is provided in each connector module:
-   1. https://gitlab.nxs360.com/packages/php/spryker/category-sitemap-connector
-   2. https://gitlab.nxs360.com/packages/php/spryker/content-pages-sitemap-connector
-   3. https://gitlab.nxs360.com/packages/php/spryker/product-abstract-sitemap-connector
+7. Register connector modules to see resources such as category, product abstract urls. Information is provided in each
+   connector module:
+   1. https://github.com/valantic-CEC-Deutschland-GmbH/category-sitemap-connector
+   2. https://github.com/valantic-CEC-Deutschland-GmbH/content-pages-sitemap-connector
+   3. https://github.com/valantic-CEC-Deutschland-GmbH/product-abstract-sitemap-connector
+   4. https://github.com/valantic-CEC-Deutschland-GmbH/product-concrete-sitemap-connector
+   5. https://github.com/valantic-CEC-Deutschland-GmbH/merchant-sitemap-connector
 
 8. If you want to retrieve sitemap data from Redis instead of DB, install `sitemap-storage` module:
-   1. https://gitlab.nxs360.com/packages/php/spryker/sitemap-storage
+   1. https://github.com/valantic-CEC-Deutschland-GmbH/sitemap-storage
 
 ## Access Sitemap
 
