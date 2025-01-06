@@ -22,7 +22,7 @@ class SitemapControllerProviderTest extends Unit
     private const METHOD_GET_STORE_CLIENT = 'getStoreClient';
     private const METHOD_GET_CURRENT_STORE = 'getCurrentStore';
     private const METHOD_GET_AVAILABLE_RESOURCE_TYPES = 'getAvailableResourceTypes';
-    private const METHOD_GET_SITEMAP_PATTERN_RESOLVER_PLUGINS = 'getSitemapPatternResolverPlugins';
+    private const METHOD_GET_SITEMAP_PATTERN_RESOLVER_PLUGIN = 'getSitemapPatternResolverPlugin';
 
     protected SitemapYvesTester $tester;
 
@@ -64,9 +64,10 @@ class SitemapControllerProviderTest extends Unit
             ->method(self::METHOD_GET_CURRENT_STORE)
             ->willReturn($storeTransfer);
 
-        $this->tester->mockFactoryMethod(self::METHOD_GET_SITEMAP_PATTERN_RESOLVER_PLUGINS, [
+        $this->tester->mockFactoryMethod(
+            self::METHOD_GET_SITEMAP_PATTERN_RESOLVER_PLUGIN,
             new StoreSitemapPatternResolverPlugin(),
-        ]);
+        );
         $factory = $this->tester->mockFactoryMethod(self::METHOD_GET_STORE_CLIENT, $this->storeClientMock);
         $factory->setContainer($this->tester->getModuleContainer());
         $this->sut->setFactory($factory);
@@ -84,7 +85,7 @@ class SitemapControllerProviderTest extends Unit
      */
     public function testProviderAddsCorrectRouteWithoutPlugins(): void
     {
-        $factory = $this->tester->mockFactoryMethod(self::METHOD_GET_SITEMAP_PATTERN_RESOLVER_PLUGINS, []);
+        $factory = $this->tester->mockFactoryMethod(self::METHOD_GET_SITEMAP_PATTERN_RESOLVER_PLUGIN, null);
         $factory->setContainer($this->tester->getModuleContainer());
         $this->sut->setFactory($factory);
 

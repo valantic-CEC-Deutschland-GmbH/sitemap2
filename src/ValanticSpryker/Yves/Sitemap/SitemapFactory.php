@@ -8,6 +8,7 @@ use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 use ValanticSpryker\Client\Sitemap\SitemapClientInterface;
 use ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface;
+use ValanticSpryker\Yves\Sitemap\Dependency\Plugin\SitemapPatternResolverPluginInterface;
 
 class SitemapFactory extends AbstractFactory
 {
@@ -44,9 +45,9 @@ class SitemapFactory extends AbstractFactory
     }
 
     /**
-     * @return array<\ValanticSpryker\Yves\Sitemap\Dependency\Plugin\SitemapPatternResolverPluginInterface>
+     * @return \ValanticSpryker\Yves\Sitemap\Dependency\Plugin\SitemapPatternResolverPluginInterface|null
      */
-    public function getSitemapPatternResolverPlugins(): array
+    public function getSitemapPatternResolverPlugin(): ?SitemapPatternResolverPluginInterface
     {
         return $this->getProvidedDependency(SitemapDependencyProvider::PLUGINS_SITEMAP_PATTERN_RESOLVER);
     }

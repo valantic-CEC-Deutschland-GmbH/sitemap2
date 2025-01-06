@@ -58,11 +58,13 @@ class SitemapControllerProvider extends AbstractRouteProviderPlugin
         $availableResourcesPattern = $this->getAvailableResourcesPattern();
         $pattern = '(sitemap)' . $availableResourcesPattern . '(\_[0-9]+)?\.xml';
 
-        foreach ($this->getFactory()->getSitemapPatternResolverPlugins() as $sitemapPatternPlugin) {
-            $pattern = $sitemapPatternPlugin->resolvePattern($pattern, $availableResourcesPattern);
+        $sitemapPatternResolverPlugin = $this->getFactory()->getSitemapPatternResolverPlugin();
+
+        if (!$sitemapPatternResolverPlugin) {
+            return $pattern;
         }
 
-        return $pattern;
+        return $sitemapPatternResolverPlugin->resolvePattern($pattern, $availableResourcesPattern);
     }
 
     /**

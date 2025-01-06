@@ -9,6 +9,8 @@ use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use ValanticSpryker\Client\Sitemap\SitemapClientInterface;
 use ValanticSpryker\Shared\Sitemap\Dependency\Plugin\SitemapResolverPluginInterface;
+use ValanticSpryker\Yves\Sitemap\Dependency\Plugin\SitemapPatternResolverPluginInterface;
+use ValanticSpryker\Yves\Sitemap\Plugin\PatternResolver\StoreSitemapPatternResolverPlugin;
 use ValanticSpryker\Yves\Sitemap\Plugin\Resolver\SitemapDatabaseResolverPlugin;
 
 class SitemapDependencyProvider extends AbstractBundleDependencyProvider
@@ -105,7 +107,7 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addSitemapPatternResolverPlugins(Container $container): void
     {
-        $container->set(self::PLUGINS_SITEMAP_PATTERN_RESOLVER, $this->getSitemapPatternResolverPlugins());
+        $container->set(self::PLUGINS_SITEMAP_PATTERN_RESOLVER, $this->getSitemapPatternResolverPlugin());
     }
 
     /**
@@ -127,12 +129,10 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
     }
 
     /**
-     * @return array<\ValanticSpryker\Yves\Sitemap\Dependency\Plugin\SitemapPatternResolverPluginInterface>
+     * @return \ValanticSpryker\Yves\Sitemap\Dependency\Plugin\SitemapPatternResolverPluginInterface|null
      */
-    protected function getSitemapPatternResolverPlugins(): array
+    protected function getSitemapPatternResolverPlugin(): ?SitemapPatternResolverPluginInterface
     {
-        return [
-            // Register plugins here to get sitemap pattern
-        ];
+        return new StoreSitemapPatternResolverPlugin();
     }
 }
