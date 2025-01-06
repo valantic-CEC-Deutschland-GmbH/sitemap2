@@ -57,7 +57,7 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
 
             $sitemapList = array_merge(
                 $sitemapList,
-                $sitemapCreator->createSitemapXml(),
+                $sitemapCreator->createSitemapXml($storeName),
             );
         }
 
