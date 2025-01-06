@@ -13,9 +13,11 @@ interface SitemapFacadeInterface
      * Specification:
      * - creates sitemap XML files and stores them to database
      *
+     * @param string $storeName
+     *
      * @return void
      */
-    public function createSitemapXml(): void;
+    public function createSitemapXml(string $storeName): void;
 
     /**
      * @param \Generated\Shared\Transfer\SitemapRequestTransfer $sitemapRequestTransfer

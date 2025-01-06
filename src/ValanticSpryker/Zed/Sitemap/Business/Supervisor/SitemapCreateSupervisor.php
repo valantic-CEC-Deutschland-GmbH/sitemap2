@@ -6,7 +6,6 @@ namespace ValanticSpryker\Zed\Sitemap\Business\Supervisor;
 
 use DOMDocument;
 use Generated\Shared\Transfer\SitemapFileTransfer;
-use Spryker\Zed\Store\Business\StoreFacadeInterface;
 use ValanticSpryker\Shared\Sitemap\SitemapConstants;
 use ValanticSpryker\Zed\Sitemap\Dependency\Plugin\SitemapCreatorPluginInterface;
 use ValanticSpryker\Zed\Sitemap\Persistence\SitemapEntityManagerInterface;
@@ -18,8 +17,6 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
         SitemapConstants::SITEMAP_NAME . SitemapConstants::DOT_XML_EXTENSION,
     ];
 
-    protected StoreFacadeInterface $storeFacade;
-
     /**
      * @var array<\ValanticSpryker\Zed\Sitemap\Dependency\Plugin\SitemapCreatorPluginInterface>
      */
@@ -30,27 +27,26 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
     protected SitemapRepositoryInterface $repository;
 
     /**
-     * @param \Spryker\Zed\Store\Business\StoreFacadeInterface $storeFacade
      * @param array<\ValanticSpryker\Zed\Sitemap\Dependency\Plugin\SitemapCreatorPluginInterface> $sitemapCreatorPlugins
      * @param \ValanticSpryker\Zed\Sitemap\Persistence\SitemapEntityManagerInterface $entityManager
      * @param \ValanticSpryker\Zed\Sitemap\Persistence\SitemapRepositoryInterface $repository
      */
     public function __construct(
-        StoreFacadeInterface $storeFacade,
         array $sitemapCreatorPlugins,
         SitemapEntityManagerInterface $entityManager,
         SitemapRepositoryInterface $repository
     ) {
-        $this->storeFacade = $storeFacade;
         $this->sitemapCreatorPlugins = $sitemapCreatorPlugins;
         $this->entityManager = $entityManager;
         $this->repository = $repository;
     }
 
     /**
+     * @param string $storeName
+     *
      * @return void
      */
-    public function create(): void
+    public function create(string $storeName): void
     {
         $sitemapList = [];
 
@@ -65,7 +61,7 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
             );
         }
 
-        $this->removeUnnecessarySitemapFiles($sitemapList);
+        $this->removeUnnecessarySitemapFiles($sitemapList, $storeName);
         $this->storeSitemapFiles($sitemapList);
         $this->createSitemapIndex();
     }
@@ -84,10 +80,11 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
 
     /**
      * @param array<\Generated\Shared\Transfer\SitemapFileTransfer> $sitemapList
+     * @param string $storeName
      *
      * @return void
      */
-    protected function removeUnnecessarySitemapFiles(array $sitemapList): void
+    protected function removeUnnecessarySitemapFiles(array $sitemapList, string $storeName): void
     {
         $savedSitemapNames = [];
 
@@ -99,7 +96,6 @@ class SitemapCreateSupervisor implements SitemapCreateSupervisorInterface
             $savedSitemapNames[] = $sitemapFileTransfer->getName();
         }
 
-        $storeName = $this->storeFacade->getCurrentStore()->getName();
         $sitemapsToRemove = $this->repository->findAllSitemapsByStoreNameExceptWithGivenNames($storeName, $savedSitemapNames);
 
         foreach ($sitemapsToRemove as $sitemapToRemove) {
