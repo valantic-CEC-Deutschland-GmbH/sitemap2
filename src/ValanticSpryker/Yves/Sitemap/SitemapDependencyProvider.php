@@ -51,7 +51,7 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
         $this->addStoreClient($container);
         $this->addAvailableSitemapRouteResources($container);
         $this->addSitemapResolverPlugin($container);
-        $this->addSitemapPatternResolverPlugins($container);
+        $this->addSitemapPatternResolverPlugin($container);
 
         return $container;
     }
@@ -105,7 +105,7 @@ class SitemapDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return void
      */
-    protected function addSitemapPatternResolverPlugins(Container $container): void
+    protected function addSitemapPatternResolverPlugin(Container $container): void
     {
         $container->set(self::PLUGINS_SITEMAP_PATTERN_RESOLVER, $this->getSitemapPatternResolverPlugin());
     }

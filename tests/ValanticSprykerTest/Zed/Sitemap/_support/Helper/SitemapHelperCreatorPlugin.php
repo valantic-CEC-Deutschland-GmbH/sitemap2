@@ -23,15 +23,17 @@ class SitemapHelperCreatorPlugin implements SitemapCreatorPluginInterface
     public const TEST_NAME = 'test-name';
 
     /**
+     * @param string $storeName
+     *
      * @return array<\Generated\Shared\Transfer\SitemapFileTransfer>
      */
-    public function createSitemapXml(): array
+    public function createSitemapXml(string $storeName): array
     {
         $sitemapFileTransfer = (new SitemapFileBuilder([
             'name' => static::TEST_NAME,
             'content' => static::TEST_CONTENT,
             'yvesBaseUrl' => static::TEST_BASE_URL,
-            'storeName' => getenv('APPLICATION_STORE'),
+            'storeName' => $storeName,
         ]))->build();
 
         return [$sitemapFileTransfer];
